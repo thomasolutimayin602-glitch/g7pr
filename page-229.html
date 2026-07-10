@@ -90,6 +90,36 @@
       pointer-events: all;
     }
     .point-hotspot:hover .hit { background: transparent; }
+    .tape-btn {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #e06000;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      z-index: 5;
+      padding: 0;
+      box-shadow: 0 2px 6px rgba(224, 96, 0, 0.4);
+      transition: all 0.2s ease;
+      pointer-events: all;
+    }
+    .tape-btn:hover {
+      background: #f07010;
+      transform: scale(1.1);
+    }
+    .tape-btn.active {
+      background: #e00000;
+      box-shadow: 0 0 10px rgba(224, 0, 0, 0.6);
+      animation: pulse 1.2s infinite alternate;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.15); }
+    }
     .nav, aside {
       position: fixed;
       z-index: 10;
@@ -468,6 +498,7 @@
             <div class="point-hotspot sentence" data-target="h-001" data-char-ids="[&quot;c00133&quot;, &quot;c00135&quot;, &quot;c00137&quot;, &quot;c00138&quot;, &quot;c00139&quot;, &quot;c00140&quot;, &quot;c00141&quot;, &quot;c00142&quot;, &quot;c00143&quot;, &quot;c00144&quot;, &quot;c00145&quot;, &quot;c00146&quot;, &quot;c00147&quot;, &quot;c00148&quot;, &quot;c00149&quot;, &quot;c00150&quot;, &quot;c00151&quot;, &quot;c00152&quot;, &quot;c00153&quot;]" data-audio-id="4696949057a034cd" data-audio-src="audio/4696949057a034cd.mp3" data-source-src="" title="例 張さんは料理をすることが好きです。">
   <div class="hit" style='left:95.106px;top:450.925px;width:216.000px;height:16.501px;'></div>
 </div>
+            
           </div>
         </div>
       </div>
@@ -534,6 +565,7 @@
 
     const groups = Array.from(document.querySelectorAll('.point-hotspot'));
     const buttons = Array.from(document.querySelectorAll('button[data-target]'));
+    const tapeButtons = Array.from(document.querySelectorAll('.tape-btn'));
     const panel = document.querySelector('#point-panel');
     const panelToggle = document.querySelector('.panel-toggle');
     const voiceSelect = document.querySelector('#voice-select');
@@ -554,6 +586,7 @@
       const group = groups.find((item) => item.dataset.target === id);
       const button = buttons.find((item) => item.dataset.target === id);
       if (!group) return;
+      tapeButtons.forEach((b) => b.classList.remove('active'));
       const alreadyActive = group.classList.contains('active');
       groups.forEach((item) => item.classList.remove('active'));
       buttons.forEach((item) => item.classList.remove('active'));
@@ -618,6 +651,33 @@
     });
     buttons.forEach((button) => {
       button.addEventListener('click', () => setActive(button.dataset.target));
+    });
+    tapeButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const audioSrc = btn.dataset.audioSrc;
+        const isActive = btn.classList.contains('active');
+        tapeButtons.forEach((b) => b.classList.remove('active'));
+        groups.forEach((item) => item.classList.remove('active'));
+        buttons.forEach((item) => item.classList.remove('active'));
+        activeChars.forEach((item) => item.classList.remove('active'));
+        activeChars = [];
+        if (isActive) {
+          pointAudio.pause();
+        } else {
+          btn.classList.add('active');
+          pointAudio.pause();
+          pointAudio.currentTime = 0;
+          pointAudio.onerror = null;
+          setAudioSource(audioSrc);
+          pointAudio.play().catch(() => {});
+        }
+      });
+    });
+    pointAudio.addEventListener('ended', () => {
+      tapeButtons.forEach((b) => b.classList.remove('active'));
+    });
+    pointAudio.addEventListener('pause', () => {
+      tapeButtons.forEach((b) => b.classList.remove('active'));
     });
     document.addEventListener('keydown', (event) => {
       if (event.key === 'ArrowLeft' && true) location.href = "page-228.html";

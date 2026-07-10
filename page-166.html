@@ -90,6 +90,36 @@
       pointer-events: all;
     }
     .point-hotspot:hover .hit { background: transparent; }
+    .tape-btn {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #e06000;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      z-index: 5;
+      padding: 0;
+      box-shadow: 0 2px 6px rgba(224, 96, 0, 0.4);
+      transition: all 0.2s ease;
+      pointer-events: all;
+    }
+    .tape-btn:hover {
+      background: #f07010;
+      transform: scale(1.1);
+    }
+    .tape-btn.active {
+      background: #e00000;
+      box-shadow: 0 0 10px rgba(224, 0, 0, 0.6);
+      animation: pulse 1.2s infinite alternate;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.15); }
+    }
     .nav, aside {
       position: fixed;
       z-index: 10;
@@ -861,6 +891,7 @@
 </div><div class="point-hotspot sentence" data-target="h-038" data-char-ids="[&quot;c00500&quot;, &quot;c00501&quot;, &quot;c00502&quot;, &quot;c00503&quot;, &quot;c00504&quot;, &quot;c00505&quot;, &quot;c00506&quot;, &quot;c00507&quot;, &quot;c00508&quot;, &quot;c00509&quot;, &quot;c00510&quot;, &quot;c00511&quot;, &quot;c00512&quot;, &quot;c00513&quot;, &quot;c00514&quot;, &quot;c00515&quot;, &quot;c00516&quot;]" data-audio-id="9b461fe5989f2ddc" data-audio-src="audio/9b461fe5989f2ddc.mp3" data-source-src="" title="先週の土曜日にどこに行きましたか。">
   <div class="hit" style='left:102.654px;top:599.826px;width:184.500px;height:16.500px;'></div>
 </div>
+            
           </div>
         </div>
       </div>
@@ -964,6 +995,7 @@
 
     const groups = Array.from(document.querySelectorAll('.point-hotspot'));
     const buttons = Array.from(document.querySelectorAll('button[data-target]'));
+    const tapeButtons = Array.from(document.querySelectorAll('.tape-btn'));
     const panel = document.querySelector('#point-panel');
     const panelToggle = document.querySelector('.panel-toggle');
     const voiceSelect = document.querySelector('#voice-select');
@@ -984,6 +1016,7 @@
       const group = groups.find((item) => item.dataset.target === id);
       const button = buttons.find((item) => item.dataset.target === id);
       if (!group) return;
+      tapeButtons.forEach((b) => b.classList.remove('active'));
       const alreadyActive = group.classList.contains('active');
       groups.forEach((item) => item.classList.remove('active'));
       buttons.forEach((item) => item.classList.remove('active'));
@@ -1048,6 +1081,33 @@
     });
     buttons.forEach((button) => {
       button.addEventListener('click', () => setActive(button.dataset.target));
+    });
+    tapeButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const audioSrc = btn.dataset.audioSrc;
+        const isActive = btn.classList.contains('active');
+        tapeButtons.forEach((b) => b.classList.remove('active'));
+        groups.forEach((item) => item.classList.remove('active'));
+        buttons.forEach((item) => item.classList.remove('active'));
+        activeChars.forEach((item) => item.classList.remove('active'));
+        activeChars = [];
+        if (isActive) {
+          pointAudio.pause();
+        } else {
+          btn.classList.add('active');
+          pointAudio.pause();
+          pointAudio.currentTime = 0;
+          pointAudio.onerror = null;
+          setAudioSource(audioSrc);
+          pointAudio.play().catch(() => {});
+        }
+      });
+    });
+    pointAudio.addEventListener('ended', () => {
+      tapeButtons.forEach((b) => b.classList.remove('active'));
+    });
+    pointAudio.addEventListener('pause', () => {
+      tapeButtons.forEach((b) => b.classList.remove('active'));
     });
     document.addEventListener('keydown', (event) => {
       if (event.key === 'ArrowLeft' && true) location.href = "page-165.html";

@@ -90,6 +90,36 @@
       pointer-events: all;
     }
     .point-hotspot:hover .hit { background: transparent; }
+    .tape-btn {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #e06000;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      z-index: 5;
+      padding: 0;
+      box-shadow: 0 2px 6px rgba(224, 96, 0, 0.4);
+      transition: all 0.2s ease;
+      pointer-events: all;
+    }
+    .tape-btn:hover {
+      background: #f07010;
+      transform: scale(1.1);
+    }
+    .tape-btn.active {
+      background: #e00000;
+      box-shadow: 0 0 10px rgba(224, 0, 0, 0.6);
+      animation: pulse 1.2s infinite alternate;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.15); }
+    }
     .nav, aside {
       position: fixed;
       z-index: 10;
@@ -1113,6 +1143,7 @@
 </div><div class="point-hotspot sentence" data-target="h-016" data-char-ids="[&quot;c00795&quot;, &quot;c00796&quot;, &quot;c00797&quot;, &quot;c00798&quot;, &quot;c00800&quot;, &quot;c00801&quot;, &quot;c00802&quot;, &quot;c00804&quot;, &quot;c00806&quot;, &quot;c00807&quot;, &quot;c00808&quot;, &quot;c00809&quot;]" data-audio-id="cbe3d8f890208e2b" data-audio-src="audio/cbe3d8f890208e2b.mp3" data-source-src="" title="わたしも パンが 好きです。">
   <div class="hit" style='left:103.637px;top:631.569px;width:153.003px;height:16.501px;'></div>
 </div>
+            
           </div>
         </div>
       </div>
@@ -1194,6 +1225,7 @@
 
     const groups = Array.from(document.querySelectorAll('.point-hotspot'));
     const buttons = Array.from(document.querySelectorAll('button[data-target]'));
+    const tapeButtons = Array.from(document.querySelectorAll('.tape-btn'));
     const panel = document.querySelector('#point-panel');
     const panelToggle = document.querySelector('.panel-toggle');
     const voiceSelect = document.querySelector('#voice-select');
@@ -1214,6 +1246,7 @@
       const group = groups.find((item) => item.dataset.target === id);
       const button = buttons.find((item) => item.dataset.target === id);
       if (!group) return;
+      tapeButtons.forEach((b) => b.classList.remove('active'));
       const alreadyActive = group.classList.contains('active');
       groups.forEach((item) => item.classList.remove('active'));
       buttons.forEach((item) => item.classList.remove('active'));
@@ -1278,6 +1311,33 @@
     });
     buttons.forEach((button) => {
       button.addEventListener('click', () => setActive(button.dataset.target));
+    });
+    tapeButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const audioSrc = btn.dataset.audioSrc;
+        const isActive = btn.classList.contains('active');
+        tapeButtons.forEach((b) => b.classList.remove('active'));
+        groups.forEach((item) => item.classList.remove('active'));
+        buttons.forEach((item) => item.classList.remove('active'));
+        activeChars.forEach((item) => item.classList.remove('active'));
+        activeChars = [];
+        if (isActive) {
+          pointAudio.pause();
+        } else {
+          btn.classList.add('active');
+          pointAudio.pause();
+          pointAudio.currentTime = 0;
+          pointAudio.onerror = null;
+          setAudioSource(audioSrc);
+          pointAudio.play().catch(() => {});
+        }
+      });
+    });
+    pointAudio.addEventListener('ended', () => {
+      tapeButtons.forEach((b) => b.classList.remove('active'));
+    });
+    pointAudio.addEventListener('pause', () => {
+      tapeButtons.forEach((b) => b.classList.remove('active'));
     });
     document.addEventListener('keydown', (event) => {
       if (event.key === 'ArrowLeft' && true) location.href = "page-055.html";
