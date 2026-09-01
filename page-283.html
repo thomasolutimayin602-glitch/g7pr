@@ -1135,5 +1135,40 @@
       if (event.key === 'ArrowRight' && true) location.href = "page-284.html";
     });
   </script>
+
+  <script>
+  /* preload-page-audio */
+  (function () {
+    function preloadPageAudio() {
+      var urls = {};
+      document.querySelectorAll('[data-audio-src],[data-source-src]').forEach(function (el) {
+        var s = el.getAttribute('data-source-src');
+        var a = el.getAttribute('data-audio-src');
+        var u = (s && s.trim()) ? s : a;   // 与 playPointAudio 优先级一致
+        if (u && u.trim()) urls[u.trim()] = 1;
+      });
+      var list = Object.keys(urls);
+      if (!list.length) return;
+      var LIMIT = 4, idx = 0, active = 0;
+      function done() { active--; pump(); }
+      function pump() {
+        while (active < LIMIT && idx < list.length) {
+          var url = list[idx++]; active++;
+          try {
+            var au = new Audio(url);
+            au.preload = 'auto';
+            au.addEventListener('canplaythrough', done);
+            au.addEventListener('error', done);
+            au.load();   // 触发下载并进入浏览器缓存
+          } catch (e) { active--; }
+        }
+      }
+      if (window.requestIdleCallback) requestIdleCallback(pump, { timeout: 4000 });
+      else setTimeout(pump, 600);
+    }
+    if (document.readyState === 'complete') preloadPageAudio();
+    else window.addEventListener('load', preloadPageAudio);  // 页面彻底打开后
+  })();
+  </script>
 </body>
 </html>
