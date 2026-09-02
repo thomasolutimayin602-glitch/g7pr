@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TTS 合成验证 · 10句×3方案</title>
+<style>
+  body { font-family: -apple-system, "Hiragino Sans", "Noto Sans CJK JP", sans-serif;
+         background:#f3efe6; color:#2b2520; margin:0; padding:24px; }
+  h1 { font-size:20px; }
+  .legend { background:#fffaf0; border:1px solid #e0d6c2; border-radius:10px;
+            padding:14px 18px; margin:14px 0 22px; line-height:1.7; font-size:13px; }
+  table { border-collapse:collapse; width:100%; background:#fff; border-radius:10px; overflow:hidden; }
+  th, td { border-bottom:1px solid #ece4d4; padding:10px 12px; text-align:left; vertical-align:top; }
+  th { background:#5b4a36; color:#fff; font-size:13px; }
+  .num { font-weight:bold; color:#8a6d3b; width:28px; }
+  .kanji { font-size:16px; min-width:200px; }
+  .accent { font-size:12px; color:#6b6255; min-width:220px; }
+  .note { font-size:12px; color:#9a3b2e; min-width:140px; }
+  .play button { display:block; width:100%; margin:3px 0; padding:7px; cursor:pointer;
+                 border:1px solid #c9b48a; border-radius:7px; background:#fbf4e3; font-size:13px; }
+  .play button:hover { background:#efe2c4; }
+  audio { width:100%; margin-top:6px; }
+</style>
+</head>
+<body>
+<h1>TTS 合成验证 · 点读句子 10 句 × 3 方案</h1>
+<div class="legend">
+  <b>3 个方案（每句重复 3 遍，对应不同合成方式）：</b><br>
+  <b>A 现状/基线</b>：把<b>原始汉字</b>直接送 TTS（复现"无振假名→汉字直送"的失败态，多音字容易念错）。<br>
+  <b>B 假名化·读音修正</b>：先用正确<b>假名</b>替换汉字（G2P），再送神经 TTS → 修好多音字；声调由神经 TTS 从假名上下文推断。<br>
+  <b>C 假名化·声调感知</b>：同样正确假名，但走<b>日语原生合成通道（say/Kyoko）</b>代表"用日语原生/声调感知引擎"；页面同时标注每句的<b>声调型（高低）</b>。<br>
+  <br>
+  <b>声调说明</b>：同一假名可能有不同高低音。例："さん"作敬称（田中<b>さ</b>ん）高读（頭高），而作"三"时低读（L）。
+  神经/原生日语 TTS 从整句假名推断声调，通常正确；要保证 100% 准确（尤其孤立词），
+  生产方案是用<b>声调词典（Unidic/fugashi 的 accent 字段）</b>取声调型，再喂给<b>声调感知引擎（VOICEVOX / OpenJTalk）</b>。
+</div>
+<table>
+  <tr><th>#</th><th>句子(汉字)</th><th>声调型（高低）</th><th>测什么</th><th>播放（A/B/C）</th></tr>
+  
+    <tr>
+      <td class="num">1</td>
+      <td class="kanji">未来中学校1年2組の生徒です。</td>
+      <td class="accent">みらい(中高) ちゅうがっこう(頭高) いちねん(頭高) にくみ(頭高) せいと(頭高) です(頭高)</td>
+      <td class="note">中→ちゅう（非 なか）</td>
+      <td class="play">
+        <button onclick="play('s01_A')">A 现状</button>
+        <button onclick="play('s01_B')">B 假名化</button>
+        <button onclick="play('s01_C')">C 假名+声调</button>
+      </td>
+    </tr>
+    <tr>
+      <td class="num">2</td>
+      <td class="kanji">田中さんは日本人です。</td>
+      <td class="accent">たなかさん(頭高:た高なかさん低) にほんじん(平板) です(頭高)</td>
+      <td class="note">さん=敬称 高读；日本=にほん</td>
+      <td class="play">
+        <button onclick="play('s02_A')">A 现状</button>
+        <button onclick="play('s02_B')">B 假名化</button>
+        <button onclick="play('s02_C')">C 假名+声调</button>
+      </td>
+    </tr>
+    <tr>
+      <td class="num">3</td>
+      <td class="kanji">三番の生徒です。</td>
+      <td class="accent">さ·ん(三=低读 L) ばん(平板) せいと(頭高) です(頭高)</td>
+      <td class="note">三=さん 低读（对比敬称さん 高读）</td>
+      <td class="play">
+        <button onclick="play('s03_A')">A 现状</button>
+        <button onclick="play('s03_B')">B 假名化</button>
+        <button onclick="play('s03_C')">C 假名+声调</button>
+      </td>
+    </tr>
+    <tr>
+      <td class="num">4</td>
+      <td class="kanji">銀行へ行きます。</td>
+      <td class="accent">ぎんこう(頭高) いきます(頭高)</td>
+      <td class="note">銀行=ぎんこう；行=い（非 ぎょう/ゆく）</td>
+      <td class="play">
+        <button onclick="play('s04_A')">A 现状</button>
+        <button onclick="play('s04_B')">B 假名化</button>
+        <button onclick="play('s04_C')">C 假名+声调</button>
+      </td>
+    </tr>
+    <tr>
+      <td class="num">5</td>
+      <td class="kanji">大きい人がいます。</td>
+      <td class="accent">おおきい(頭高) ひと(頭高) います(頭高)</td>
+      <td class="note">大=おお；人=ひと（非 じん）</td>
+      <td class="play">
+        <button onclick="play('s05_A')">A 现状</button>
+        <button onclick="play('s05_B')">B 假名化</button>
+        <button onclick="play('s05_C')">C 假名+声调</button>
+      </td>
+    </tr>
+    <tr>
+      <td class="num">6</td>
+      <td class="kanji">日生先生です。</td>
+      <td class="accent">ひなせ(頭高) せんせい(平板) です(頭高)</td>
+      <td class="note">生=せい；先=せん（非 さき）</td>
+      <td class="play">
+        <button onclick="play('s06_A')">A 现状</button>
+        <button onclick="play('s06_B')">B 假名化</button>
+        <button onclick="play('s06_C')">C 假名+声调</button>
+      </td>
+    </tr>
+    <tr>
+      <td class="num">7</td>
+      <td class="kanji">一日中勉強します。</td>
+      <td class="accent">いちにち(頭高) じゅう(平板) べんきょう(頭高) します(頭高)</td>
+      <td class="note">中=じゅう（非 ちゅう/なか）；日=にち</td>
+      <td class="play">
+        <button onclick="play('s07_A')">A 现状</button>
+        <button onclick="play('s07_B')">B 假名化</button>
+        <button onclick="play('s07_C')">C 假名+声调</button>
+      </td>
+    </tr>
+    <tr>
+      <td class="num">8</td>
+      <td class="kanji">日本語が上手です。</td>
+      <td class="accent">にほんご(平板) じょうず(頭高) です(頭高)</td>
+      <td class="note">上=じょう（上手=じょうず，非 うえ）</td>
+      <td class="play">
+        <button onclick="play('s08_A')">A 现状</button>
+        <button onclick="play('s08_B')">B 假名化</button>
+        <button onclick="play('s08_C')">C 假名+声调</button>
+      </td>
+    </tr>
+    <tr>
+      <td class="num">9</td>
+      <td class="kanji">何時ですか。</td>
+      <td class="accent">なんじ(頭高) です(頭高) か(尾高)</td>
+      <td class="note">何=なん（非 なに）；時=じ</td>
+      <td class="play">
+        <button onclick="play('s09_A')">A 现状</button>
+        <button onclick="play('s09_B')">B 假名化</button>
+        <button onclick="play('s09_C')">C 假名+声调</button>
+      </td>
+    </tr>
+    <tr>
+      <td class="num">10</td>
+      <td class="kanji">山本さんのお嬢さんです。</td>
+      <td class="accent">やまもとさん(頭高) おじょうさん(頭高) です(頭高)</td>
+      <td class="note">さん×2 敬称 高读；本=ほん</td>
+      <td class="play">
+        <button onclick="play('s10_A')">A 现状</button>
+        <button onclick="play('s10_B')">B 假名化</button>
+        <button onclick="play('s10_C')">C 假名+声调</button>
+      </td>
+    </tr>
+</table>
+<audio id="player" controls></audio>
+<script>
+  var p = document.getElementById('player');
+  function play(name) { p.src = 'tts_verify_audio/' + name + '.mp3'; p.play(); }
+</script>
+</body>
+</html>
