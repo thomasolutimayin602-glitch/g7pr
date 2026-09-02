@@ -21,6 +21,33 @@
                  border:1px solid #c9b48a; border-radius:7px; background:#fbf4e3; font-size:13px; }
   .play button:hover { background:#efe2c4; }
   audio { width:100%; margin-top:6px; }
+
+  /* ---- 手机适配：窄屏把表格转成卡片 ---- */
+  @media (max-width: 640px) {
+    body { padding:12px; }
+    h1 { font-size:17px; }
+    .legend { font-size:12px; padding:10px 12px; margin:10px 0 16px; }
+    table, tbody, tr, td { display:block; width:100%; }
+    thead { display:none; }
+    tr { background:#fff; border:1px solid #e0d6c2; border-radius:10px;
+         margin-bottom:14px; overflow:hidden; }
+    td { display:flex; gap:10px; align-items:flex-start;
+         border-bottom:1px solid #ece4d4; padding:9px 12px; min-width:0; }
+    tr td:last-child { border-bottom:none; }
+    td::before { flex:0 0 72px; font-weight:bold; color:#8a6d3b; font-size:12px;
+                 line-height:1.6; }
+    td:nth-child(1)::before { content:"#"; }
+    td:nth-child(2)::before { content:"句子"; }
+    td:nth-child(3)::before { content:"声调型"; }
+    td:nth-child(4)::before { content:"测什么"; }
+    td:nth-child(5)::before { content:"播放"; }
+    .num, .kanji, .accent, .note { min-width:0; width:auto; font-size:14px; }
+    .play { width:100%; }
+    .play button { display:inline-block; width:auto; flex:1; padding:10px 4px;
+                   font-size:13px; margin:0; }
+    .play button + button { margin-left:6px; }
+    audio { width:100%; }
+  }
 </style>
 </head>
 <body>
