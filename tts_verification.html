@@ -56,7 +56,7 @@
   <b>3 个方案（每句重复 3 遍，对应不同合成方式）：</b><br>
   <b>A 现状/基线</b>：把<b>原始汉字</b>直接送 TTS（复现"无振假名→汉字直送"的失败态，多音字容易念错）。<br>
   <b>B 假名化·读音修正</b>：先用正确<b>假名</b>替换汉字（G2P），再送神经 TTS → 修好多音字；声调由神经 TTS 从假名上下文推断。<br>
-  <b>C 假名化·声调感知</b>：同样正确假名，但走<b>日语原生合成通道（say/Kyoko）</b>代表"用日语原生/声调感知引擎"；页面同时标注每句的<b>声调型（高低）</b>。<br>
+  <b>C 汉字→VOICEVOX</b>：把<b>原始汉字</b>直接送 VOICEVOX（日语神经引擎，自带 G2P+声调），读对 中=ちゅう 且声调自然；代表"能<b>整句吃汉字、正确假名+声调出音</b>"的引擎。页面同时标注每句的<b>声调型（高低）</b>。<br>
   <br>
   <b>声调说明</b>：同一假名可能有不同高低音。例："さん"作敬称（田中<b>さ</b>ん）高读（頭高），而作"三"时低读（L）。
   神经/原生日语 TTS 从整句假名推断声调，通常正确；要保证 100% 准确（尤其孤立词），
@@ -73,7 +73,7 @@
       <td class="play">
         <button onclick="play('s01_A')">A 现状</button>
         <button onclick="play('s01_B')">B 假名化</button>
-        <button onclick="play('s01_C')">C 假名+声调</button>
+        <button onclick="play('s01_C')">C 汉字→VOICEVOX</button>
       </td>
     </tr>
     <tr>
@@ -84,7 +84,7 @@
       <td class="play">
         <button onclick="play('s02_A')">A 现状</button>
         <button onclick="play('s02_B')">B 假名化</button>
-        <button onclick="play('s02_C')">C 假名+声调</button>
+        <button onclick="play('s02_C')">C 汉字→VOICEVOX</button>
       </td>
     </tr>
     <tr>
@@ -95,7 +95,7 @@
       <td class="play">
         <button onclick="play('s03_A')">A 现状</button>
         <button onclick="play('s03_B')">B 假名化</button>
-        <button onclick="play('s03_C')">C 假名+声调</button>
+        <button onclick="play('s03_C')">C 汉字→VOICEVOX</button>
       </td>
     </tr>
     <tr>
@@ -106,7 +106,7 @@
       <td class="play">
         <button onclick="play('s04_A')">A 现状</button>
         <button onclick="play('s04_B')">B 假名化</button>
-        <button onclick="play('s04_C')">C 假名+声调</button>
+        <button onclick="play('s04_C')">C 汉字→VOICEVOX</button>
       </td>
     </tr>
     <tr>
@@ -117,7 +117,7 @@
       <td class="play">
         <button onclick="play('s05_A')">A 现状</button>
         <button onclick="play('s05_B')">B 假名化</button>
-        <button onclick="play('s05_C')">C 假名+声调</button>
+        <button onclick="play('s05_C')">C 汉字→VOICEVOX</button>
       </td>
     </tr>
     <tr>
@@ -128,7 +128,7 @@
       <td class="play">
         <button onclick="play('s06_A')">A 现状</button>
         <button onclick="play('s06_B')">B 假名化</button>
-        <button onclick="play('s06_C')">C 假名+声调</button>
+        <button onclick="play('s06_C')">C 汉字→VOICEVOX</button>
       </td>
     </tr>
     <tr>
@@ -139,7 +139,7 @@
       <td class="play">
         <button onclick="play('s07_A')">A 现状</button>
         <button onclick="play('s07_B')">B 假名化</button>
-        <button onclick="play('s07_C')">C 假名+声调</button>
+        <button onclick="play('s07_C')">C 汉字→VOICEVOX</button>
       </td>
     </tr>
     <tr>
@@ -150,7 +150,7 @@
       <td class="play">
         <button onclick="play('s08_A')">A 现状</button>
         <button onclick="play('s08_B')">B 假名化</button>
-        <button onclick="play('s08_C')">C 假名+声调</button>
+        <button onclick="play('s08_C')">C 汉字→VOICEVOX</button>
       </td>
     </tr>
     <tr>
@@ -161,7 +161,7 @@
       <td class="play">
         <button onclick="play('s09_A')">A 现状</button>
         <button onclick="play('s09_B')">B 假名化</button>
-        <button onclick="play('s09_C')">C 假名+声调</button>
+        <button onclick="play('s09_C')">C 汉字→VOICEVOX</button>
       </td>
     </tr>
     <tr>
@@ -172,7 +172,7 @@
       <td class="play">
         <button onclick="play('s10_A')">A 现状</button>
         <button onclick="play('s10_B')">B 假名化</button>
-        <button onclick="play('s10_C')">C 假名+声调</button>
+        <button onclick="play('s10_C')">C 汉字→VOICEVOX</button>
       </td>
     </tr>
 </table>
