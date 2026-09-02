@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VOICEVOX 短文对比 · 14角色</title>
+<style>
+  body { font-family:-apple-system,"Hiragino Sans","Noto Sans CJK JP",sans-serif;
+         background:#f3efe6; color:#2b2520; margin:0; padding:20px; }
+  h1 { font-size:19px; }
+  .passage { background:#fff; border:1px solid #e0d6c2; border-radius:12px;
+              padding:18px 20px; font-size:19px; line-height:2.0; margin:12px 0; }
+  .reading { font-size:13px; color:#6b6255; line-height:1.9; margin:0 0 14px; }
+  .points { background:#fffaf0; border:1px solid #e0d6c2; border-radius:10px;
+             padding:12px 18px; font-size:13px; line-height:1.8; margin-bottom:18px; }
+  .points b { color:#8a6d3b; }
+  .vtabs { display:flex; flex-wrap:wrap; gap:8px; }
+  .vtab { padding:9px 13px; border:1px solid #c9b48a; border-radius:8px;
+           background:#fbf4e3; cursor:pointer; font-size:13px; }
+  .vtab:hover { background:#efe2c4; }
+  .vtab.active { background:#5b4a36; color:#fff; border-color:#5b4a36; }
+  .cur { margin:14px 0 6px; font-size:13px; color:#8a6d3b; }
+  audio { width:100%; }
+  @media (max-width:640px) {
+    .passage { font-size:17px; padding:14px; }
+  }
+</style>
+</head>
+<body>
+<h1>VOICEVOX 短文对比 · 14 角色（各ノーマル）</h1>
+<div class="passage">明日の朝、田中さんは中学校の近くの銀行へ行きました。橋の下で、花と鼻の話をしながら、箸を買いました。日本から来た先生は、上手に日本語を話します。大きな図書館で、一日中本を読みました。鳥を取る時間は、何時から何時までか、長い間考えました。</div>
+<div class="reading">【読み】あしたのあさ、たなかさんはちゅうがっこうのちかくのぎんこうへいきました。はしのしたで、はなとはなのはなしをしながら、はしをかいました。にほんからきたせんせいは、じょうずににほんごをはなします。おおきなとしょかんで、いちにちじゅうほんをよみました。とりをとるじかんは、なんじからなんじまでか、ながいあいだかんがえました。</div>
+<div class="points"><b>看点（多音汉字 / 不同音调）：</b><ul style="margin:6px 0 0; padding-left:20px;"><li>多音汉字：中→ちゅう(中学校) / じゅう(一日中)；行→い(行きました) / こう(銀行)；人→ひと(人) / じん(日本人)；上→じょう(上手) / うえ；大→おお(大きい) / だい；何→なん(何時) / なに；時→じ(何時) / とき；長→なが(長い) / ちょう</li><li>同音不同声调(高低アクセント)：はし 橋(頭高) vs 箸(尾高)；はな 花(頭高) vs 鼻(平板)；とり 鳥(頭高) vs 取(平板)；にほん 日本(平板) vs 二本(頭高)</li></ul></div>
+<div class="vtabs" id="tabs"></div>
+<div class="cur">正在播放：<b id="curName">—</b></div>
+<audio id="player" controls></audio>
+<script>
+  var VOICES = [{"id": 2, "name": "四国めたん"}, {"id": 8, "name": "春日部つむぎ"}, {"id": 11, "name": "玄野武宏"}, {"id": 13, "name": "青山龍星"}, {"id": 21, "name": "剣崎雌雄"}, {"id": 29, "name": "No.7"}, {"id": 51, "name": "†聖騎士 紅桜†"}, {"id": 52, "name": "雀松朱司"}, {"id": 68, "name": "あいえるたん"}, {"id": 69, "name": "満別花丸"}, {"id": 74, "name": "琴詠ニア"}, {"id": 94, "name": "中部つるぎ"}, {"id": 100, "name": "黒沢冴白"}, {"id": 108, "name": "東北きりたん"}];
+  var p = document.getElementById('player');
+  var tabs = document.getElementById('tabs');
+  VOICES.forEach(function(v){
+    var b = document.createElement('button');
+    b.className = 'vtab';
+    b.textContent = '▶ ' + v.name;
+    b.onclick = function(){ play(v); };
+    tabs.appendChild(b);
+  });
+  function play(v){
+    p.src = 'tts_passage/passage_v' + v.id + '.mp3';
+    p.play();
+    document.getElementById('curName').textContent = v.name;
+    document.querySelectorAll('.vtab').forEach(function(x){ x.classList.remove('active'); });
+    // highlight matching
+    Array.from(tabs.children).forEach(function(x,i){ if(VOICES[i].id===v.id) x.classList.add('active'); });
+  }
+</script>
+</body>
+</html>
