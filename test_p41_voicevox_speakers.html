@@ -141,63 +141,6 @@
     100% { box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6); }
   }
 
-  /* Active Sentence Info Card */
-  .active-info-card {
-    background: #f0f7ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 13.5px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    transition: all 0.2s ease;
-  }
-  .info-top {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    color: #1e40af;
-  }
-  .info-zh {
-    color: #334155;
-    font-size: 14px;
-  }
-  .info-pitch {
-    font-size: 12px;
-    color: #64748b;
-  }
-  .info-pitch code {
-    background: #ffffff;
-    padding: 1px 6px;
-    border-radius: 4px;
-    color: #1e40af;
-    border: 1px solid #dbeafe;
-  }
-
-  /* Chinese Paragraph */
-  .chinese-paper {
-    background: #f8fafc;
-    border: 1px dashed #cbd5e1;
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 14.5px;
-    line-height: 1.8;
-    color: #475569;
-  }
-  .zh-span {
-    padding: 2px 4px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .zh-span.active {
-    background: #fef08a;
-    color: #854d0e;
-    font-weight: 700;
-  }
-
   /* LOWER SECTION: CV Selection & Controls */
   .lower-section {
     background: #ffffff;
@@ -397,32 +340,13 @@
         <span>📖 七年级上册 · 第41页课本例句正文段落（共 13 句拼接）</span>
       </div>
       <div style="font-size: 12px; color: #64748b;">
-        <span>★ 虚线标记句为【母と】【母は】重点纠偏句</span>
+        <span>★ 虚线标记句为【母と】【母は】重点纠偏句（点击任意句子可跳转播放）</span>
       </div>
     </div>
 
     <!-- The Concatenated Japanese Paragraph -->
     <div class="paragraph-box" id="jpParagraph">
       <span class="sent-span " id="sent-h-001" data-idx="0" onclick="jumpToSentence(0)" title="点击从第1句开始播放">本屋です。</span> <span class="sent-span " id="sent-h-002" data-idx="1" onclick="jumpToSentence(1)" title="点击从第2句开始播放">駅へ 行きます。</span> <span class="sent-span " id="sent-h-003" data-idx="2" onclick="jumpToSentence(2)" title="点击从第3句开始播放">李さんは 今 レストランへ 行きます。</span> <span class="sent-span " id="sent-h-004" data-idx="3" onclick="jumpToSentence(3)" title="点击从第4句开始播放">高橋さんは あした 公園へ 行きます。</span> <span class="sent-span " id="sent-h-005" data-idx="4" onclick="jumpToSentence(4)" title="点击从第5句开始播放">中山さん、どこへ 行きますか。</span> <span class="sent-span " id="sent-h-006" data-idx="5" onclick="jumpToSentence(5)" title="点击从第6句开始播放">本屋へ 行きます。</span> <span class="sent-span " id="sent-h-007" data-idx="6" onclick="jumpToSentence(6)" title="点击从第7句开始播放">弟と 行きます。</span> <span class="sent-span is-problem" id="sent-h-008" data-idx="7" onclick="jumpToSentence(7)" title="点击从第8句开始播放">あした 母と 父の 店へ 行きます。</span> <span class="sent-span " id="sent-h-009" data-idx="8" onclick="jumpToSentence(8)" title="点击从第9句开始播放">あした 周先生と 天津へ 行きます。</span> <span class="sent-span " id="sent-h-010" data-idx="9" onclick="jumpToSentence(9)" title="点击从第10句开始播放">誰と 薬屋へ 行きますか。</span> <span class="sent-span " id="sent-h-011" data-idx="10" onclick="jumpToSentence(10)" title="点击从第11句开始播放">李さんと 行きます。</span> <span class="sent-span " id="sent-h-012" data-idx="11" onclick="jumpToSentence(11)" title="点击从第12句开始播放">帽子を 買います。</span> <span class="sent-span is-problem" id="sent-h-013" data-idx="12" onclick="jumpToSentence(12)" title="点击从第13句开始播放">あした 母は かばんを 買います。</span>
-    </div>
-
-    <!-- Active Sentence Real-time Details Panel -->
-    <div class="active-info-card" id="activeInfoCard">
-      <div class="info-top" id="infoTitle">
-        <span>就绪 · 点击下方任意 CV 按钮即可开始朗读全文</span>
-      </div>
-      <div class="info-zh" id="infoZh">
-        <span>点击正文段落中的任意句子，也可直接跳转到该句播放。</span>
-      </div>
-      <div class="info-pitch" id="infoPitch">
-        <span>已全量应用方案1（大模型声调与假名精准纠偏，彻底根除 waha / wawa）</span>
-      </div>
-    </div>
-
-    <!-- Synchronized Chinese Translation Paragraph -->
-    <div class="chinese-paper">
-      <div style="font-size: 11px; font-weight: 700; color: #94a3b8; margin-bottom: 4px;">🇨🇳 中文翻译参考对照（随播放同步标记）：</div>
-      <div><span class="zh-span " id="zh-h-001" data-idx="0" onclick="jumpToSentence(0)">（这里/这是）书店。</span> <span class="zh-span " id="zh-h-002" data-idx="1" onclick="jumpToSentence(1)">去车站。</span> <span class="zh-span " id="zh-h-003" data-idx="2" onclick="jumpToSentence(2)">小李现在去餐厅。</span> <span class="zh-span " id="zh-h-004" data-idx="3" onclick="jumpToSentence(3)">高桥明天去公园。</span> <span class="zh-span " id="zh-h-005" data-idx="4" onclick="jumpToSentence(4)">中山，你去哪里？</span> <span class="zh-span " id="zh-h-006" data-idx="5" onclick="jumpToSentence(5)">去书店。</span> <span class="zh-span " id="zh-h-007" data-idx="6" onclick="jumpToSentence(6)">和弟弟去。</span> <span class="zh-span is-problem" id="zh-h-008" data-idx="7" onclick="jumpToSentence(7)">明天我和妈妈去爸爸的店。</span> <span class="zh-span " id="zh-h-009" data-idx="8" onclick="jumpToSentence(8)">明天我和周老师去天津。</span> <span class="zh-span " id="zh-h-010" data-idx="9" onclick="jumpToSentence(9)">和谁去药店？</span> <span class="zh-span " id="zh-h-011" data-idx="10" onclick="jumpToSentence(10)">和小李去。</span> <span class="zh-span " id="zh-h-012" data-idx="11" onclick="jumpToSentence(11)">买帽子。</span> <span class="zh-span is-problem" id="zh-h-013" data-idx="12" onclick="jumpToSentence(12)">明天妈妈要买个手提包。</span></div>
     </div>
   </section>
 
@@ -540,9 +464,6 @@ function playNextStep() {
   // Highlight sentence span in the paragraph
   highlightSentence(hid, currentSentenceIndex);
   
-  // Update status dock & active card
-  document.getElementById("dockStatusText").innerHTML = `正在朗读 <b>第 ${currentSentenceIndex + 1} / ${sentenceIds.length} 句</b>`;
-  
   // Audio file path
   const src = `test_p41_speakers/${hid}_${currentCvKey}.mp3`;
   audio.src = src;
@@ -566,11 +487,10 @@ function playNextStep() {
   });
 }
 
-// Highlight sentence span in the upper paragraph and update details
+// Highlight sentence span in the upper paragraph and update status
 function highlightSentence(hid, idx) {
   // Remove previous highlights
   document.querySelectorAll(".sent-span").forEach(el => el.classList.remove("active"));
-  document.querySelectorAll(".zh-span").forEach(el => el.classList.remove("active"));
 
   // Highlight current in Japanese paragraph
   const targetSpan = document.getElementById("sent-" + hid);
@@ -578,26 +498,10 @@ function highlightSentence(hid, idx) {
     targetSpan.classList.add("active");
   }
 
-  // Highlight in Chinese translation
-  const zhSpan = document.getElementById("zh-" + hid);
-  if (zhSpan) {
-    zhSpan.classList.add("active");
-  }
-
-  // Update details card
   const item = sentences[idx];
   const spk = speakers.find(s => s.key === currentCvKey) || speakers[0];
-  const isProb = item.is_problem;
-
-  let titleHtml = `<span>第 ${idx + 1} / ${sentences.length} 句 · ${item.category}</span>`;
-  if (isProb) {
-    titleHtml += ` <span style="background:#fef3c7; color:#b45309; font-size:11px; padding:1px 6px; border-radius:4px; border:1px solid #fde68a;">★ 重点纠偏句</span>`;
-  }
-  titleHtml += ` <span style="font-weight:normal; font-size:12px; color:#64748b;">(当前CV: ${spk.name})</span>`;
-
-  document.getElementById("infoTitle").innerHTML = titleHtml;
-  document.getElementById("infoZh").innerHTML = `<b>中文释义:</b> ${item.chinese}`;
-  document.getElementById("infoPitch").innerHTML = `<b>读音假名:</b> <code>${item.reading}</code> &nbsp;|&nbsp; <b>声调标记:</b> <code>${item.aquastalk}</code> (${item.pitch})`;
+  const isProb = item.is_problem ? ' <span style="background:#fef3c7; color:#b45309; font-size:11px; padding:1px 6px; border-radius:4px; border:1px solid #fde68a;">★重点纠偏</span>' : '';
+  document.getElementById("dockStatusText").innerHTML = `正在由【${spk.name}】朗读 <b>第 ${idx + 1} / ${sentences.length} 句</b>：${item.japanese}${isProb}`;
 }
 
 function stopAllPlayback() {
@@ -605,10 +509,7 @@ function stopAllPlayback() {
   isPaused = false;
   stopAudioOnly();
   document.querySelectorAll(".sent-span").forEach(el => el.classList.remove("active"));
-  document.querySelectorAll(".zh-span").forEach(el => el.classList.remove("active"));
   document.getElementById("dockStatusText").textContent = "已停止朗读 · 点击下方 CV 按钮即可重新朗读";
-  document.getElementById("infoTitle").textContent = "就绪 · 点击下方任意 CV 按钮即可开始朗读全文";
-  document.getElementById("infoZh").textContent = "点击正文段落中的任意句子，也可直接跳转到该句播放。";
   updatePauseButtonUI();
 }
 
@@ -651,10 +552,8 @@ function finishPlayback() {
   isPlaying = false;
   isPaused = false;
   document.querySelectorAll(".sent-span").forEach(el => el.classList.remove("active"));
-  document.querySelectorAll(".zh-span").forEach(el => el.classList.remove("active"));
   const spk = speakers.find(s => s.key === currentCvKey);
   document.getElementById("dockStatusText").innerHTML = `🎉 <b>全篇已朗读完毕！</b>（由【${spk.name}】播音）`;
-  document.getElementById("infoTitle").innerHTML = `🎉 <b>全篇13句朗读完毕！</b>`;
   updatePauseButtonUI();
 }
 
