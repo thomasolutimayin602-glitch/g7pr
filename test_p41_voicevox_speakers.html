@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF 41页例句 · VOICEVOX 全CV全篇连读试听</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-bg: #eff6ff;
+    --border: #e2e8f0;
+    --card-bg: #ffffff;
+    --page-bg: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --highlight-border: #3b82f6;
+    --highlight-bg: #eff6ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    background: var(--page-bg);
+    color: var(--text-main);
+    line-height: 1.6;
+    padding: 24px 16px 200px; /* Leave generous space for bottom dock */
+  }
+  .container {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  header {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    border: 1px solid var(--border);
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    color: #0f172a;
+  }
+  .badge-tag {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #dbeafe;
+    color: #1d4ed8;
+  }
+  .intro-box {
+    background: #f8fafc;
+    border-left: 4px solid var(--primary);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 13.5px;
+    color: #334155;
+    margin-top: 12px;
+  }
+
+  /* Unified Reading Document Flow */
+  .reading-paper {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.04);
+    overflow: hidden;
+  }
+  .paper-header {
+    background: #f1f5f9;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+  }
+  .sentence-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Sentence Row */
+  .sentence-row {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .sentence-row:last-child {
+    border-bottom: none;
+  }
+  .sentence-row:hover {
+    background: #f8fafc;
+  }
+  
+  /* Active Reading Highlight */
+  .sentence-row.active-reading {
+    background: #eff6ff !important;
+    border-left: 5px solid #2563eb;
+    box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.2), 0 4px 16px rgba(37, 99, 235, 0.08);
+    transform: scale(1.002);
+  }
+  .sentence-row.problem-item {
+    background: #fffdfa;
+  }
+  .sentence-row.problem-item.active-reading {
+    background: #eff6ff !important;
+    border-left: 5px solid #2563eb;
+  }
+
+  .row-num {
+    font-size: 14px;
+    font-weight: 800;
+    color: #94a3b8;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #f1f5f9;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .active-reading .row-num {
+    background: #2563eb;
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+  }
+
+  .row-content {
+    flex: 1;
+    min-width: 0;
+  }
+  .row-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+  .cat-tag {
+    font-size: 11.5px;
+    color: #64748b;
+    font-weight: 600;
+  }
+  .problem-tag {
+    font-size: 11px;
+    font-weight: 700;
+    background: #fef3c7;
+    color: #b45309;
+    padding: 1px 7px;
+    border-radius: 4px;
+    border: 1px solid #fde68a;
+  }
+  .reading-indicator {
+    display: none;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #2563eb;
+    background: #dbeafe;
+    padding: 1px 8px;
+    border-radius: 12px;
+    animation: pulse 1s infinite alternate;
+  }
+  .active-reading .reading-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  @keyframes pulse {
+    0% { opacity: 0.7; transform: scale(0.98); }
+    100% { opacity: 1; transform: scale(1.02); }
+  }
+
+  .jp-text {
+    font-size: 21px;
+    font-weight: 700;
+    color: #0f172a;
+    font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    margin-bottom: 2px;
+  }
+  .active-reading .jp-text {
+    color: #1d4ed8;
+  }
+  .zh-text {
+    font-size: 14px;
+    color: #475569;
+    margin-bottom: 6px;
+  }
+  .pitch-spec {
+    font-size: 12px;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .pitch-spec code {
+    color: #475569;
+    background: #f1f5f9;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 11.5px;
+  }
+  .active-reading .pitch-spec code {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  .row-action {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .btn-play-single {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .btn-play-single:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+  }
+
+  /* Fixed Bottom Control Dock */
+  .bottom-dock {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(16px);
+    border-top: 1.5px solid #cbd5e1;
+    box-shadow: 0 -8px 30px rgba(15, 23, 42, 0.12);
+    padding: 12px 20px 16px;
+  }
+  .dock-inner {
+    max-width: 1040px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Status Bar */
+  .dock-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 8px;
+  }
+  .status-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    color: #334155;
+  }
+  .status-cv-badge {
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: #dbeafe;
+    color: #1e40af;
+  }
+  .status-current-text {
+    color: #0f172a;
+    font-weight: 700;
+    font-family: "Yu Mincho", serif;
+  }
+  .status-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dock-btn {
+    border: none;
+    border-radius: 7px;
+    padding: 6px 14px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+  }
+  .btn-stop {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+  }
+  .btn-stop:hover {
+    background: #fecaca;
+  }
+  .btn-pause {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+  }
+  .btn-pause:hover {
+    background: #e2e8f0;
+  }
+
+  /* CV Buttons Row */
+  .dock-cv-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .cv-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cv-buttons-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .cv-btn {
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 9px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .cv-btn:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+    transform: translateY(-1px);
+  }
+  
+  /* Primary 4 CVs Special Accents */
+  .cv-btn.top-rank {
+    border-width: 2px;
+  }
+  .cv-btn.top-rank[data-key="metan_2"] { border-color: #8b5cf6; }
+  .cv-btn.top-rank[data-key="tsumugi_8"] { border-color: #f97316; }
+  .cv-btn.top-rank[data-key="ryusei_13"] { border-color: #2563eb; }
+  .cv-btn.top-rank[data-key="kenzaki_21"] { border-color: #0284c7; }
+
+  /* Active Playing State */
+  .cv-btn.active-cv {
+    background: #2563eb !important;
+    border-color: #1d4ed8 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    transform: translateY(-2px);
+  }
+  .cv-btn.active-cv .cv-role {
+    background: rgba(255,255,255,0.25) !important;
+    color: #ffffff !important;
+  }
+
+  .cv-role {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: #475569;
+  }
+
+  .speed-select {
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    font-size: 12px;
+    font-weight: 600;
+    color: #334155;
+    background: #ffffff;
+    outline: none;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>
+      <span>PDF 41页例句 · VOICEVOX 全CV全篇连读试听</span>
+      <span class="badge-tag">方案1 · 连续自然语流</span>
+    </h1>
+    <div class="intro-box">
+      <b>💡 使用说明：</b><br>
+      • 41 页全部 13 个句子已集合在下方阅读流中。<br>
+      • <b>点击底部任意 CV 按钮</b>，该角色将<b>从第 1 句自动连读至第 13 句</b>，念到哪句会自动滚动并<b>高亮哪句</b>。<br>
+      • 按钮已按您的要求排列：前两个为 <b>四国めたん</b>、<b>春日部つむぎ</b>，紧接着是 <b>青山龍星（青龙）</b> 与 <b>剣崎雌雄（雄雌）</b>，其余角色排列在后。<br>
+      • 您也可以在列表中直接点击任意单句试听当前 CV。
+    </div>
+  </header>
+
+  <!-- Aggregated Reading Document Paper -->
+  <div class="reading-paper">
+    <div class="paper-header">
+      <span>📄 七年级上册 · 第41页课本练习与例句内容（共 13 句）</span>
+      <span>点击任意行可从该句开始播放</span>
+    </div>
+    <div class="sentence-list" id="sentenceList">
+
+      <div class="sentence-row " id="row-h-001" onclick="playFromSentence('h-001')">
+        <div class="row-num">01</div>
+        <div class="row-content">
+          <div class="row-meta">
+            <span class="cat-tag">语法项目 1（例句 1）</span>
+            
+            <span class="reading-indicator" id="indicator-h-001">🔊 正在朗读</span>
+          </div>
+          <div class="jp-text">本屋です。</div>
+          <div class="zh-text">（这里/这是）书店。</div>
+          <div class="pitch-spec">
+            <span>假名声调: <code>ホ'ンヤ/デ'ス</code></span>
+            <span>音拍: ホ'ンヤ（頭高 ①）＋ デ'ス（①）</span>
+          </div>
+        </div>
+        <div class="row-action">
+          <button class="btn-play-single" onclick="event.stopPropagation(); playSingleSentence('h-001')" title="单独播放此句">
+            <span>▶ 播放</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sentence-row " id="row-h-002" onclick="playFromSentence('h-002')">
+        <div class="row-num">02</div>
+        <div class="row-content">
+          <div class="row-meta">
+            <span class="cat-tag">语法项目 2（例句 1）</span>
+            
+            <span class="reading-indicator" id="indicator-h-002">🔊 正在朗读</span>
+          </div>
+          <div class="jp-text">駅へ 行きます。</div>
+          <div class="zh-text">去车站。</div>
+          <div class="pitch-spec">
+            <span>假名声调: <code>エ'キエ/イキマ'_ス</code></span>
+            <span>音拍: エ'キ（頭高 ①）＋ エ（助词）＋ イキマ'_ス（中高 ③）</span>
+          </div>
+        </div>
+        <div class="row-action">
+          <button class="btn-play-single" onclick="event.stopPropagation(); playSingleSentence('h-002')" title="单独播放此句">
+            <span>▶ 播放</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sentence-row " id="row-h-003" onclick="playFromSentence('h-003')">
+        <div class="row-num">03</div>
+        <div class="row-content">
+          <div class="row-meta">
+            <span class="cat-tag">语法项目 2（例句 2）</span>
+            
+            <span class="reading-indicator" id="indicator-h-003">🔊 正在朗读</span>
+          </div>
+          <div class="jp-text">李さんは 今 レストランへ 行きます。</div>
+          <div class="zh-text">小李现在去餐厅。</div>
+          <div class="pitch-spec">
+            <span>假名声调: <code>リ'サンワ/イ'マ/レ'ストランエ/イキマ'_ス</code></span>
+            <span>音拍: リ'サンワ（頭高 ①）＋ イ'マ（頭高 ①）＋ レ'ストランエ（頭高 ①）＋ イキマ'_ス（中高 ③）</span>
+          </div>
+        </div>
+        <div class="row-action">
+          <button class="btn-play-single" onclick="event.stopPropagation(); playSingleSentence('h-003')" title="单独播放此句">
+            <span>▶ 播放</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sentence-row " id="row-h-004" onclick="playFromSentence('h-004')">
+        <div class="row-num">04</div>
+        <div class="row-content">
+          <div class="row-meta">
+            <span class="cat-tag">语法项目 2（例句 3）</span>
+            
+            <span class="reading-indicator" id="indicator-h-004">🔊 正在朗读</span>
+          </div>
+          <div class="jp-text">高橋さんは あした 公園へ 行きます。</div>
+          <div class="zh-text">高桥明天去公园。</div>
+          <div class="pitch-spec">
+            <span>假名声调: <code>タカハシ'サンワ/ア_シタ'/コ'ウエンエ/イキマ'_ス</code></span>
+            <span>音拍: タカハシ'サンワ（中高 ④）＋ ア_シタ'（尾高 ③）＋ コ'ウエンエ（頭高 ①）＋ イキマ'_ス（中高 ③）</span>
+          </div>
+        </div>
+        <div class="row-action">
+          <button class="btn-play-single" onclick="event.stopPropagation(); playSingleSentence('h-004')" title="单独播放此句">
+            <span>▶ 播放</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sentence-row " id="row-h-005" onclick="playFromSentence('h-005')">
+        <div class="row-num">05</div>
+        <div class="row-content">
+          <div class="row-meta">
+            <span class="cat-tag">语法项目 2（练习 1 问）</span>
+            
+            <span class="reading-indicator" id="indicator-h-005">🔊 正在朗读</span>
+          </div>
+          <div class="jp-text">中山さん、どこへ 行きますか。</div>
+          <div class="zh-text">中山，你去哪里？</div>
+          <div class="pitch-spec">
+            <span>假名声调: <code>ナカヤマ'サン、ド'コエ/イキマ'_スカ</code></span>
+            <span>音拍: ナカヤマ'サン（中高 ④）＋ ド'コエ（頭高 ①）＋ イキマ'_スカ（疑问升调 ↗）</span>
+          </div>
+        </div>
+        <div class="row-action">
+          <button class="btn-play-single" onclick="event.stopPropagation(); playSingleSentence('h-005')" title="单独播放此句">
+            <span>▶ 播放</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sentence-row " id="row-h-006" onclick="playFromSentence('h-006')">
+        <div class="row-num">06</div>
+        <div class="row-content">
+          <div class="row-meta">
+            <span class="cat-tag">语法项目 2（练习 1 答）</span>
+            
+            <span class="reading-indicator" id="indicator-h-006">🔊 正在朗读</span>
+          </div>
+          <div class="jp-text">本屋へ 行きます。</div>
+          <div class="zh-text">去书店。</div>
+          <div class="pitch-spec">
+            <span>假名声调: <code>ホ'ンヤエ/イキマ'_ス</code></span>
+            <span>音拍: ホ'ンヤエ（頭高 ①）＋ イキマ'_ス（中高 ③）</span>
+          </div>
+        </div>
+        <div class="row-action">
+          <button class="btn-play-single" onclick="event.stopPropagation(); playSingleSentence('h-006')" title="单独播放此句">
+            <span>▶ 播放</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sentence-row " id="row-h-007" onclick="playFromSentence('h-007')">
+        <div class="row-num">07</div>
+        <div class="row-content">
+          <div class="row-meta">
+            <span class="cat-tag">语法项目 3（例句 1）</span>
+            
+            <span class="reading-indicator" id="indicator-h-007">🔊 正在朗读</span>
+          </div>
+          <div class="jp-text">弟と 行きます。</div>
+          <div class="zh-text">和弟弟去。</div>
+          <div class="pitch-spec">
+            <span>假名声调: <code>オト_ウ'トト/イキマ'_ス</code></span>
+            <span>音拍: オト_ウ'トト（中高 ④）＋ イキマ'_ス（中高 ③）</span>
+          </div>
+        </div>
+        <div class="row-action">
+          <button class="btn-play-single" onclick="event.stopPropagation(); playSingleSentence('h-007')" title="单独播放此句">
+            <span>▶ 播放</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sentence-row problem-item" id="row-h-008" onclick="playFromSentence('h-008')">
+        <div class="row-num">08</div>
+        <div class="row-content">
+          <div class="row-meta">
+            <span class="cat-tag">★ 语法项目 3（第三大题第 1 小题 · 重点问题句）</span>
+            <span class="problem-tag">★ 重点纠偏句：旧版读「waha」，方案1使用「ハ'ハト」严格锁定名词辅音 [ha ha to] 与头高型音调。</span>
+            <span class="reading-indicator" id="indicator-h-008">🔊 正在朗读</span>
+          </div>
+          <div class="jp-text">あした 母と 父の 店へ 行きます。</div>
+          <div class="zh-text">明天我和妈妈去爸爸的店。</div>
+          <div class="pitch-spec">
+            <span>假名声调: <code>ア_シタ'/ハ'ハト/チ'チノ/ミセ'エ/イキマ'_ス</code></span>
+            <span>音拍: ア_シタ'（尾高 ③）＋ 【母と：ハ'ハト（頭高 ①/ha ha to）】 ＋ チ'チノ（頭高 ①）＋ ミセ'エ（尾高 ②）＋ イキマ'_ス（中高 ③）</span>
+          </div>
+        </div>
+        <div class="row-action">
+          <button class="btn-play-single" onclick="event.stopPropagation(); playSingleSentence('h-008')" title="单独播放此句">
+            <span>▶ 播放</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sentence-row " id="row-h-009" onclick="playFromSentence('h-009')">
+        <div class="row-num">09</div>
+        <div class="row-content">
+          <div class="row-meta">
+            <span class="cat-tag">语法项目 3（第三大题第 2 小题）</span>
+            
+            <span class="reading-indicator" id="indicator-h-009">🔊 正在朗读</span>
+          </div>
+          <div class="jp-text">あした 周先生と 天津へ 行きます。</div>
+          <div class="zh-text">明天我和周老师去天津。</div>
+          <div class="pitch-spec">
+            <span>假名声调: <code>ア_シタ'/シュ_ウセ'ンセイト/テ'ンシンエ/イキマ'_ス</code></span>
+            <span>音拍: ア_シタ'（尾高 ③）＋ シュ_ウセ'ンセイト（中高 ③）＋ テ'ンシンエ（頭高 ①）＋ イキマ'_ス（中高 ③）</span>
+          </div>
+        </div>
+        <div class="row-action">
+          <button class="btn-play-single" onclick="event.stopPropagation(); playSingleSentence('h-009')" title="单独播放此句">
+            <span>▶ 播放</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sentence-row " id="row-h-010" onclick="playFromSentence('h-010')">
+        <div class="row-num">10</div>
+        <div class="row-content">
+          <div class="row-meta">
+            <span class="cat-tag">语法项目 3（练习 1 问）</span>
+            
+            <span class="reading-indicator" id="indicator-h-010">🔊 正在朗读</span>
+          </div>
+          <div class="jp-text">誰と 薬屋へ 行きますか。</div>
+          <div class="zh-text">和谁去药店？</div>
+          <div class="pitch-spec">
+            <span>假名声调: <code>ダ'レト/クスリ'ヤエ/イキマ'_スカ</code></span>
+            <span>音拍: ダ'レト（頭高 ①）＋ クスリ'ヤエ（中高 ③）＋ イキマ'_スカ（疑问升调 ↗）</span>
+          </div>
+        </div>
+        <div class="row-action">
+          <button class="btn-play-single" onclick="event.stopPropagation(); playSingleSentence('h-010')" title="单独播放此句">
+            <span>▶ 播放</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sentence-row " id="row-h-011" onclick="playFromSentence('h-011')">
+        <div class="row-num">11</div>
+        <div class="row-content">
+          <div class="row-meta">
+            <span class="cat-tag">语法项目 3（练习 1 答）</span>
+            
+            <span class="reading-indicator" id="indicator-h-011">🔊 正在朗读</span>
+          </div>
+          <div class="jp-text">李さんと 行きます。</div>
+          <div class="zh-text">和小李去。</div>
+          <div class="pitch-spec">
+            <span>假名声调: <code>リ'サント/イキマ'_ス</code></span>
+            <span>音拍: リ'サント（頭高 ①）＋ イキマ'_ス（中高 ③）</span>
+          </div>
+        </div>
+        <div class="row-action">
+          <button class="btn-play-single" onclick="event.stopPropagation(); playSingleSentence('h-011')" title="单独播放此句">
+            <span>▶ 播放</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sentence-row " id="row-h-012" onclick="playFromSentence('h-012')">
+        <div class="row-num">12</div>
+        <div class="row-content">
+          <div class="row-meta">
+            <span class="cat-tag">语法项目 4（例句 1）</span>
+            
+            <span class="reading-indicator" id="indicator-h-012">🔊 正在朗读</span>
+          </div>
+          <div class="jp-text">帽子を 買います。</div>
+          <div class="zh-text">买帽子。</div>
+          <div class="pitch-spec">
+            <span>假名声调: <code>ボ'ウシオ/カイマ'_ス</code></span>
+            <span>音拍: ボ'ウシオ（頭高 ①）＋ カイマ'_ス（中高 ③）</span>
+          </div>
+        </div>
+        <div class="row-action">
+          <button class="btn-play-single" onclick="event.stopPropagation(); playSingleSentence('h-012')" title="单独播放此句">
+            <span>▶ 播放</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sentence-row problem-item" id="row-h-013" onclick="playFromSentence('h-013')">
+        <div class="row-num">13</div>
+        <div class="row-content">
+          <div class="row-meta">
+            <span class="cat-tag">★ 语法项目 4（第四大题第 1 小题 · 重点问题句）</span>
+            <span class="problem-tag">★ 重点纠偏句：旧版读「wawawa」，方案1使用「ハ'ハワ」锁定名词「ハハ」与提示助词「ワ」。</span>
+            <span class="reading-indicator" id="indicator-h-013">🔊 正在朗读</span>
+          </div>
+          <div class="jp-text">あした 母は かばんを 買います。</div>
+          <div class="zh-text">明天妈妈要买个手提包。</div>
+          <div class="pitch-spec">
+            <span>假名声调: <code>ア_シタ'/ハ'ハワ/カバンオ'/カイマ'_ス</code></span>
+            <span>音拍: ア_シタ'（尾高 ③）＋ 【母は：ハ'ハワ（頭高 ①/ha ha wa）】 ＋ カバンオ'（尾高 ④）＋ カイマ'_ス（中高 ③）</span>
+          </div>
+        </div>
+        <div class="row-action">
+          <button class="btn-play-single" onclick="event.stopPropagation(); playSingleSentence('h-013')" title="单独播放此句">
+            <span>▶ 播放</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Sticky Bottom CV Dock Bar -->
+<div class="bottom-dock">
+  <div class="dock-inner">
+    <!-- Status & Controls -->
+    <div class="dock-status-bar">
+      <div class="status-left">
+        <span class="status-cv-badge" id="dockCvBadge">四国めたん</span>
+        <span id="dockStatusText">就绪 · 请点击下方 CV 按钮启动全篇朗读</span>
+      </div>
+      <div class="status-controls">
+        <label style="font-size:12px; color:#64748b; font-weight:600;">语速:</label>
+        <select class="speed-select" id="speedSelect" onchange="changePlaybackRate(this.value)">
+          <option value="1.0" selected>1.0x 正常</option>
+          <option value="1.1">1.1x 略快</option>
+          <option value="1.2">1.2x 快速</option>
+        </select>
+        <button class="dock-btn btn-pause" id="pauseBtn" onclick="togglePause()">
+          <span id="pauseIcon">⏸</span> <span id="pauseText">暂停</span>
+        </button>
+        <button class="dock-btn btn-stop" onclick="stopAllPlayback()">
+          <span>⏹</span> 停止
+        </button>
+      </div>
+    </div>
+
+    <!-- CV Buttons Grid in user requested order -->
+    <div class="dock-cv-section">
+      <div class="cv-section-title">
+        <span>🎙️ 点击 CV 按钮启动从头到尾全篇朗读（四国、春日、青龙、雄雌 排在前列）:</span>
+        <span style="font-size:11px; color:#94a3b8;">快捷键: 空格键 暂停/继续</span>
+      </div>
+      <div class="cv-buttons-grid" id="cvButtonsGrid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const speakers = [{"key": "metan_2", "id": 2, "name": "四国めたん", "alias": "四国", "style": "ノーマル", "gender": "女声 · 少女音", "desc": "此前所用的基准音色，清脆利落的二次元少女音", "tag": "四国 · 当前基准", "tag_color": "#7c3aed", "badge_bg": "#ede9fe", "icon": "👧"}, {"key": "tsumugi_8", "id": 8, "name": "春日部つむぎ", "alias": "春日", "style": "ノーマル", "gender": "女声 · 元气女高", "desc": "超高人气女高中生音，明快自然、元气满满，极具日常交流感", "tag": "春日 · 元气活力", "tag_color": "#ea580c", "badge_bg": "#ffedd5", "icon": "🎒"}, {"key": "ryusei_13", "id": 13, "name": "青山龍星", "alias": "青龙", "style": "ノーマル", "gender": "男声 · 正统播音", "desc": "★ 男声首选！成熟正统男播音员，磁性深沉稳重，极度契合课文男播音", "tag": "青龙 · 正统男播音", "tag_color": "#1e3a8a", "badge_bg": "#dbeafe", "icon": "🎙️"}, {"key": "kenzaki_21", "id": 21, "name": "剣崎雌雄", "alias": "雄雌", "style": "ノーマル", "gender": "男声 · 帅气青年", "desc": "沉着干练的青年男声，咬字清晰，酷感与知性并存", "tag": "雄雌 · 磁性男声", "tag_color": "#0369a1", "badge_bg": "#e0f2fe", "icon": "🩺"}, {"key": "seven_announce_30", "id": 30, "name": "No.7", "alias": "No.7播音", "style": "アナウンス（播音员风）", "gender": "女声 · 标准播音腔", "desc": "专业新闻与电台播音腔，成熟端庄、咬字极工整，贴近官方磁带", "tag": "No.7 · 电台播音", "tag_color": "#2563eb", "badge_bg": "#dbeafe", "icon": "📻"}, {"key": "seven_story_31", "id": 31, "name": "No.7", "alias": "No.7朗读", "style": "読み聞かせ（朗诵风）", "gender": "女声 · 教学朗诵", "desc": "课文与绘本教学朗读风格，语调亲切温柔、抑扬顿挫", "tag": "No.7 · 教学朗诵", "tag_color": "#059669", "badge_bg": "#d1fae5", "icon": "📖"}, {"key": "hau_10", "id": 10, "name": "雨晴はう", "alias": "雨晴", "style": "ノーマル", "gender": "女声 · 温柔教师", "desc": "温婉清澈、护士/温柔女教师风格，声音平易近人、极其耐听", "tag": "雨晴 · 温柔教师", "tag_color": "#0d9488", "badge_bg": "#ccfbf1", "icon": "🌸"}, {"key": "sora_16", "id": 16, "name": "九州そら", "alias": "九州", "style": "ノーマル", "gender": "女声 · 知性稳重", "desc": "成熟优雅大姐姐音，沉着温厚，富有条理性", "tag": "九州 · 知性大姐姐", "tag_color": "#475569", "badge_bg": "#f1f5f9", "icon": "☕"}, {"key": "zunko_107", "id": 107, "name": "東北ずん子", "alias": "ずん子", "style": "ノーマル", "gender": "女声 · 大和抚子", "desc": "柔美温婉，语感极其标准纯正", "tag": "ずん子 · 温婉纯正", "tag_color": "#16a34a", "badge_bg": "#dcfce7", "icon": "🍡"}, {"key": "takehiro_11", "id": 11, "name": "玄野武宏", "alias": "玄野", "style": "ノーマル", "gender": "男声 · 阳光青年", "desc": "阳光青年男声，爽朗清晰，适合男学生角色", "tag": "玄野 · 阳光男学生", "tag_color": "#0284c7", "badge_bg": "#e0f2fe", "icon": "⚾"}, {"key": "kotaro_12", "id": 12, "name": "白上虎太郎", "alias": "虎太郎", "style": "ふつう", "gender": "男声 · 初中少年", "desc": "活泼小少年/正太音，适合初一低年级小男生对话", "tag": "虎太郎 · 初中少年", "tag_color": "#ca8a04", "badge_bg": "#fef9c3", "icon": "👦"}, {"key": "mochiko_20", "id": 20, "name": "もち子さん", "alias": "もち子", "style": "ノーマル", "gender": "女声 · 邻家少女", "desc": "柔和邻家女孩音，嗓音细腻甜润", "tag": "もち子 · 邻家少女", "tag_color": "#db2777", "badge_bg": "#fce7f3", "icon": "🎀"}];
+const sentences = [{"id": "h-001", "category": "语法项目 1（例句 1）", "japanese": "本屋です。", "chinese": "（这里/这是）书店。", "aquastalk": "ホ'ンヤ/デ'ス", "reading": "ほんや です", "pitch": "ホ'ンヤ（頭高 ①）＋ デ'ス（①）", "has_source": true, "is_problem": false}, {"id": "h-002", "category": "语法项目 2（例句 1）", "japanese": "駅へ 行きます。", "chinese": "去车站。", "aquastalk": "エ'キエ/イキマ'_ス", "reading": "えきへ いきます", "pitch": "エ'キ（頭高 ①）＋ エ（助词）＋ イキマ'_ス（中高 ③）", "has_source": true, "is_problem": false}, {"id": "h-003", "category": "语法项目 2（例句 2）", "japanese": "李さんは 今 レストランへ 行きます。", "chinese": "小李现在去餐厅。", "aquastalk": "リ'サンワ/イ'マ/レ'ストランエ/イキマ'_ス", "reading": "りさんは いま れすとらんへ いきます", "pitch": "リ'サンワ（頭高 ①）＋ イ'マ（頭高 ①）＋ レ'ストランエ（頭高 ①）＋ イキマ'_ス（中高 ③）", "has_source": false, "is_problem": false}, {"id": "h-004", "category": "语法项目 2（例句 3）", "japanese": "高橋さんは あした 公園へ 行きます。", "chinese": "高桥明天去公园。", "aquastalk": "タカハシ'サンワ/ア_シタ'/コ'ウエンエ/イキマ'_ス", "reading": "たかはしさんは あした こうえんへ いきます", "pitch": "タカハシ'サンワ（中高 ④）＋ ア_シタ'（尾高 ③）＋ コ'ウエンエ（頭高 ①）＋ イキマ'_ス（中高 ③）", "has_source": false, "is_problem": false}, {"id": "h-005", "category": "语法项目 2（练习 1 问）", "japanese": "中山さん、どこへ 行きますか。", "chinese": "中山，你去哪里？", "aquastalk": "ナカヤマ'サン、ド'コエ/イキマ'_スカ", "reading": "なかやまさん、どこへ いきますか", "pitch": "ナカヤマ'サン（中高 ④）＋ ド'コエ（頭高 ①）＋ イキマ'_スカ（疑问升调 ↗）", "has_source": false, "is_problem": false}, {"id": "h-006", "category": "语法项目 2（练习 1 答）", "japanese": "本屋へ 行きます。", "chinese": "去书店。", "aquastalk": "ホ'ンヤエ/イキマ'_ス", "reading": "ほんやへ いきます", "pitch": "ホ'ンヤエ（頭高 ①）＋ イキマ'_ス（中高 ③）", "has_source": false, "is_problem": false}, {"id": "h-007", "category": "语法项目 3（例句 1）", "japanese": "弟と 行きます。", "chinese": "和弟弟去。", "aquastalk": "オト_ウ'トト/イキマ'_ス", "reading": "おとうとと いきます", "pitch": "オト_ウ'トト（中高 ④）＋ イキマ'_ス（中高 ③）", "has_source": false, "is_problem": false}, {"id": "h-008", "category": "★ 语法项目 3（第三大题第 1 小题 · 重点问题句）", "japanese": "あした 母と 父の 店へ 行きます。", "chinese": "明天我和妈妈去爸爸的店。", "aquastalk": "ア_シタ'/ハ'ハト/チ'チノ/ミセ'エ/イキマ'_ス", "reading": "あした ははと ちちの みせへ いきます", "pitch": "ア_シタ'（尾高 ③）＋ 【母と：ハ'ハト（頭高 ①/ha ha to）】 ＋ チ'チノ（頭高 ①）＋ ミセ'エ（尾高 ②）＋ イキマ'_ス（中高 ③）", "has_source": false, "is_problem": true, "problem_desc": "旧版读「waha」，方案1使用「ハ'ハト」严格锁定名词辅音 [ha ha to] 与头高型音调。"}, {"id": "h-009", "category": "语法项目 3（第三大题第 2 小题）", "japanese": "あした 周先生と 天津へ 行きます。", "chinese": "明天我和周老师去天津。", "aquastalk": "ア_シタ'/シュ_ウセ'ンセイト/テ'ンシンエ/イキマ'_ス", "reading": "あした しゅうせんせいと てんしんへ いきます", "pitch": "ア_シタ'（尾高 ③）＋ シュ_ウセ'ンセイト（中高 ③）＋ テ'ンシンエ（頭高 ①）＋ イキマ'_ス（中高 ③）", "has_source": false, "is_problem": false}, {"id": "h-010", "category": "语法项目 3（练习 1 问）", "japanese": "誰と 薬屋へ 行きますか。", "chinese": "和谁去药店？", "aquastalk": "ダ'レト/クスリ'ヤエ/イキマ'_スカ", "reading": "だれと くすりやへ いきますか", "pitch": "ダ'レト（頭高 ①）＋ クスリ'ヤエ（中高 ③）＋ イキマ'_スカ（疑问升调 ↗）", "has_source": false, "is_problem": false}, {"id": "h-011", "category": "语法项目 3（练习 1 答）", "japanese": "李さんと 行きます。", "chinese": "和小李去。", "aquastalk": "リ'サント/イキマ'_ス", "reading": "りさんと いきます", "pitch": "リ'サント（頭高 ①）＋ イキマ'_ス（中高 ③）", "has_source": false, "is_problem": false}, {"id": "h-012", "category": "语法项目 4（例句 1）", "japanese": "帽子を 買います。", "chinese": "买帽子。", "aquastalk": "ボ'ウシオ/カイマ'_ス", "reading": "ぼうしを かいます", "pitch": "ボ'ウシオ（頭高 ①）＋ カイマ'_ス（中高 ③）", "has_source": true, "is_problem": false}, {"id": "h-013", "category": "★ 语法项目 4（第四大题第 1 小题 · 重点问题句）", "japanese": "あした 母は かばんを 買います。", "chinese": "明天妈妈要买个手提包。", "aquastalk": "ア_シタ'/ハ'ハワ/カバンオ'/カイマ'_ス", "reading": "あした ははは かばんを かいます", "pitch": "ア_シタ'（尾高 ③）＋ 【母は：ハ'ハワ（頭高 ①/ha ha wa）】 ＋ カバンオ'（尾高 ④）＋ カイマ'_ス（中高 ③）", "has_source": false, "is_problem": true, "problem_desc": "旧版读「wawawa」，方案1使用「ハ'ハワ」锁定名词「ハハ」与提示助词「ワ」。"}];
+const sentenceIds = sentences.map(s => s.id);
+
+let currentCvKey = "metan_2"; // Default to Shikoku
+let isPlaying = false;
+let isPaused = false;
+let currentSentenceIndex = 0;
+let playbackRate = 1.0;
+let audio = new Audio();
+
+// Render CV Buttons
+function renderCvButtons() {
+  const container = document.getElementById("cvButtonsGrid");
+  container.innerHTML = "";
+
+  speakers.forEach((spk, idx) => {
+    const btn = document.createElement("button");
+    const isTop = idx < 4;
+    btn.className = "cv-btn" + (isTop ? " top-rank" : "") + (spk.key === currentCvKey ? " active-cv" : "");
+    btn.id = "btn-cv-" + spk.key;
+    btn.setAttribute("data-key", spk.key);
+    btn.innerHTML = `
+      <span>${spk.icon}</span>
+      <span>${spk.name}</span>
+      <span class="cv-role" style="background:${spk.badge_bg}; color:${spk.tag_color};">${spk.alias || spk.gender}</span>
+    `;
+    btn.onclick = () => selectCvAndPlayAll(spk.key);
+    container.appendChild(btn);
+  });
+}
+
+// Select CV and start reading from sentence 0
+function selectCvAndPlayAll(cvKey) {
+  currentCvKey = cvKey;
+  updateActiveCvButton();
+  startContinuousPlayback(0);
+}
+
+function updateActiveCvButton() {
+  document.querySelectorAll(".cv-btn").forEach(btn => btn.classList.remove("active-cv"));
+  const activeBtn = document.getElementById("btn-cv-" + currentCvKey);
+  if (activeBtn) activeBtn.classList.add("active-cv");
+  
+  const spk = speakers.find(s => s.key === currentCvKey);
+  if (spk) {
+    document.getElementById("dockCvBadge").textContent = `${spk.icon} ${spk.name}`;
+  }
+}
+
+// Start reading continuously from a specific index
+function startContinuousPlayback(startIndex = 0) {
+  stopAudioOnly();
+  isPlaying = true;
+  isPaused = false;
+  currentSentenceIndex = startIndex;
+  updatePauseButtonUI();
+  playNextStep();
+}
+
+function playNextStep() {
+  if (!isPlaying || isPaused) return;
+
+  if (currentSentenceIndex >= sentenceIds.length) {
+    // Completed all sentences
+    finishPlayback();
+    return;
+  }
+
+  const hid = sentenceIds[currentSentenceIndex];
+  const item = sentences[currentSentenceIndex];
+  const spk = speakers.find(s => s.key === currentCvKey) || speakers[0];
+
+  // Highlight active row & scroll into view
+  highlightRow(hid);
+  
+  // Update status dock
+  const statusText = document.getElementById("dockStatusText");
+  statusText.innerHTML = `正在朗读 <b>第 ${currentSentenceIndex + 1} / ${sentenceIds.length} 句</b> · <span class="status-current-text">${item.japanese}</span>`;
+
+  // Audio source
+  const src = `test_p41_speakers/${hid}_${currentCvKey}.mp3`;
+  audio.src = src;
+  audio.playbackRate = playbackRate;
+
+  audio.onended = () => {
+    if (!isPlaying || isPaused) return;
+    currentSentenceIndex++;
+    // Natural inter-sentence pause (350ms)
+    setTimeout(playNextStep, 350);
+  };
+
+  audio.onerror = (e) => {
+    console.error("Audio error for", src, e);
+    currentSentenceIndex++;
+    setTimeout(playNextStep, 300);
+  };
+
+  audio.play().catch(e => {
+    console.warn("Autoplay prevent / error:", e);
+  });
+}
+
+function highlightRow(hid) {
+  document.querySelectorAll(".sentence-row").forEach(r => r.classList.remove("active-reading"));
+  const row = document.getElementById("row-" + hid);
+  if (row) {
+    row.classList.add("active-reading");
+    row.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+}
+
+function stopAllPlayback() {
+  isPlaying = false;
+  isPaused = false;
+  stopAudioOnly();
+  document.querySelectorAll(".sentence-row").forEach(r => r.classList.remove("active-reading"));
+  document.getElementById("dockStatusText").textContent = "已停止朗读 · 点击下方 CV 按钮即可重新朗读";
+  updatePauseButtonUI();
+}
+
+function stopAudioOnly() {
+  audio.pause();
+  audio.currentTime = 0;
+}
+
+function togglePause() {
+  if (!isPlaying) {
+    // If not playing, start with current CV from beginning
+    startContinuousPlayback(0);
+    return;
+  }
+
+  if (isPaused) {
+    isPaused = false;
+    audio.play();
+    document.getElementById("dockStatusText").innerHTML = `恢复朗读 · <b>第 ${currentSentenceIndex + 1} 句</b>`;
+  } else {
+    isPaused = true;
+    audio.pause();
+    document.getElementById("dockStatusText").innerHTML = `已暂停 · 停在 <b>第 ${currentSentenceIndex + 1} 句</b>`;
+  }
+  updatePauseButtonUI();
+}
+
+function updatePauseButtonUI() {
+  const icon = document.getElementById("pauseIcon");
+  const text = document.getElementById("pauseText");
+  if (isPaused || !isPlaying) {
+    icon.textContent = "▶";
+    text.textContent = "继续";
+  } else {
+    icon.textContent = "⏸";
+    text.textContent = "暂停";
+  }
+}
+
+function finishPlayback() {
+  isPlaying = false;
+  isPaused = false;
+  document.querySelectorAll(".sentence-row").forEach(r => r.classList.remove("active-reading"));
+  const spk = speakers.find(s => s.key === currentCvKey);
+  document.getElementById("dockStatusText").innerHTML = `🎉 <b>全篇13句已全部朗读完毕！</b>（由【${spk.name}】播音）`;
+  updatePauseButtonUI();
+}
+
+// Play single sentence with current CV
+function playSingleSentence(hid) {
+  stopAllPlayback();
+  const idx = sentenceIds.indexOf(hid);
+  if (idx !== -1) {
+    currentSentenceIndex = idx;
+    const item = sentences[idx];
+    highlightRow(hid);
+    const spk = speakers.find(s => s.key === currentCvKey);
+    document.getElementById("dockStatusText").innerHTML = `单句试听【${spk.name}】· <span class="status-current-text">${item.japanese}</span>`;
+    
+    audio.src = `test_p41_speakers/${hid}_${currentCvKey}.mp3`;
+    audio.playbackRate = playbackRate;
+    audio.onended = () => {
+      document.querySelectorAll(".sentence-row").forEach(r => r.classList.remove("active-reading"));
+      document.getElementById("dockStatusText").textContent = "单句试听完毕";
+    };
+    audio.play();
+  }
+}
+
+// Click row to start continuous playback from that sentence
+function playFromSentence(hid) {
+  const idx = sentenceIds.indexOf(hid);
+  if (idx !== -1) {
+    startContinuousPlayback(idx);
+  }
+}
+
+function changePlaybackRate(val) {
+  playbackRate = parseFloat(val);
+  audio.playbackRate = playbackRate;
+}
+
+// Keyboard shortcut (Space to pause/play)
+window.addEventListener("keydown", (e) => {
+  if (e.code === "Space" && e.target.tagName !== "INPUT" && e.target.tagName !== "SELECT") {
+    e.preventDefault();
+    togglePause();
+  }
+});
+
+window.onload = () => {
+  renderCvButtons();
+  updateActiveCvButton();
+};
+</script>
+</body>
+</html>
