@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VOICEVOX 原生慢速生成测试 (speedScale 参数)</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --border: #e2e8f0;
+    --card-bg: #ffffff;
+    --page-bg: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", sans-serif;
+    background: var(--page-bg);
+    color: var(--text-main);
+    line-height: 1.6;
+    padding: 24px 16px 60px;
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  header {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 22px 24px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  h1 { font-size: 21px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+  .intro {
+    font-size: 14px;
+    color: #334155;
+    background: #f1f5f9;
+    padding: 14px 18px;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary);
+  }
+  .section-card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 22px 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  }
+  .sent-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 4px;
+  }
+  .sent-sub {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 16px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+  }
+  .option-card {
+    background: #f8fafc;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+  .option-card.highlight {
+    background: #eff6ff;
+    border-color: #3b82f6;
+  }
+  .option-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+  }
+  .option-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .option-name {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: #1e293b;
+  }
+  .badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #e2e8f0;
+    color: #475569;
+  }
+  .badge.recommended {
+    background: #dbeafe;
+    color: #1d4ed8;
+  }
+  .option-desc {
+    font-size: 12px;
+    color: #64748b;
+    min-height: 34px;
+  }
+  audio {
+    width: 100%;
+    height: 32px;
+    outline: none;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🎙️ VOICEVOX 原生慢速合成对比（speedScale 参数）</h1>
+    <div class="intro">
+      <b>💡 参数原理：</b><br>
+      VOICEVOX 原生内置了 <code>speedScale</code> 声学参数（默认 1.0）。<br>
+      调小此参数时，<b>神经网络在声学合成阶段直接以更舒缓的节奏生成每个假名的发音时长</b>，音调、共鸣与自然度完全保真，绝非播放器或 ffmpeg 后期强行拉伸（没有任何变调、电音失真）。<br>
+      以下例句均固定了词间 60ms 舒适微顿，仅调整 <code>speedScale</code> 的发音语速：
+    </div>
+  </header>
+
+  <!-- Sentence 1 -->
+  <section class="section-card">
+    <div class="sent-title">
+      <span>📖 例句一：あした 母と 父の 店へ 行きます。</span>
+    </div>
+    <div class="sent-sub">（句内保留 60ms 舒适词间短顿）</div>
+
+    <div class="grid">
+      <div class="option-card">
+        <div class="option-header">
+          <span class="option-name">1.00x 原速 (100%)</span>
+          <span class="badge">原速标准</span>
+        </div>
+        <div class="option-desc">VOICEVOX 默认发音速度，适合有基础的日常交流语速。</div>
+        <audio controls src="test_speed_samples/s1_speed_1.00.mp3"></audio>
+      </div>
+
+      <div class="option-card highlight">
+        <div class="option-header">
+          <span class="option-name">0.92x 微慢 (92%)</span>
+          <span class="badge recommended">推荐 · 自然从容</span>
+        </div>
+        <div class="option-desc">轻微放慢，每个假名吐字极其饱满清晰，不疾不徐。</div>
+        <audio controls src="test_speed_samples/s1_speed_0.92.mp3"></audio>
+      </div>
+
+      <div class="option-card highlight">
+        <div class="option-header">
+          <span class="option-name">0.85x 教学慢速 (85%)</span>
+          <span class="badge recommended">推荐 · 领读跟读</span>
+        </div>
+        <div class="option-desc">明显慢速教学风，字正腔圆，非常适合初一零基础学生跟读。</div>
+        <audio controls src="test_speed_samples/s1_speed_0.85.mp3"></audio>
+      </div>
+
+      <div class="option-card">
+        <div class="option-header">
+          <span class="option-name">0.80x 超慢 (80%)</span>
+          <span class="badge">极慢</span>
+        </div>
+        <div class="option-desc">极大程度拉长假名发音，一字一拍，适合慢速精听音调。</div>
+        <audio controls src="test_speed_samples/s1_speed_0.80.mp3"></audio>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sentence 2 -->
+  <section class="section-card">
+    <div class="sent-title">
+      <span>📖 例句二：李さんは 今 レストランへ 行きます。</span>
+    </div>
+    <div class="sent-sub">（句内保留 60ms 舒适词间短顿）</div>
+
+    <div class="grid">
+      <div class="option-card">
+        <div class="option-header">
+          <span class="option-name">1.00x 原速 (100%)</span>
+          <span class="badge">原速标准</span>
+        </div>
+        <div class="option-desc">VOICEVOX 默认发音速度。</div>
+        <audio controls src="test_speed_samples/s2_speed_1.00.mp3"></audio>
+      </div>
+
+      <div class="option-card highlight">
+        <div class="option-header">
+          <span class="option-name">0.92x 微慢 (92%)</span>
+          <span class="badge recommended">推荐 · 自然从容</span>
+        </div>
+        <div class="option-desc">轻微放慢，每个假名吐字极其饱满清晰，不疾不徐。</div>
+        <audio controls src="test_speed_samples/s2_speed_0.92.mp3"></audio>
+      </div>
+
+      <div class="option-card highlight">
+        <div class="option-header">
+          <span class="option-name">0.85x 教学慢速 (85%)</span>
+          <span class="badge recommended">推荐 · 领读跟读</span>
+        </div>
+        <div class="option-desc">明显慢速教学风，字正腔圆，非常适合初一零基础学生跟读。</div>
+        <audio controls src="test_speed_samples/s2_speed_0.85.mp3"></audio>
+      </div>
+
+      <div class="option-card">
+        <div class="option-header">
+          <span class="option-name">0.80x 超慢 (80%)</span>
+          <span class="badge">极慢</span>
+        </div>
+        <div class="option-desc">极大程度拉长假名发音。</div>
+        <audio controls src="test_speed_samples/s2_speed_0.80.mp3"></audio>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
