@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>初学日语点读 · 词间停顿节奏（时长对比试听）</title>
+<title>初学日语点读 · 词间停顿微调对比（80ms / 60ms / 40ms / 20ms）</title>
 <style>
   :root {
     --primary: #2563eb;
@@ -22,11 +22,11 @@
     padding: 24px 16px 60px;
   }
   .container {
-    max-width: 860px;
+    max-width: 980px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
   }
   header {
     background: #ffffff;
@@ -35,12 +35,12 @@
     border: 1px solid var(--border);
     box-shadow: 0 4px 12px rgba(0,0,0,0.03);
   }
-  h1 { font-size: 20px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+  h1 { font-size: 21px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
   .intro {
-    font-size: 13.5px;
-    color: #475569;
+    font-size: 14px;
+    color: #334155;
     background: #f1f5f9;
-    padding: 12px 16px;
+    padding: 12px 18px;
     border-radius: 10px;
     border-left: 4px solid var(--primary);
   }
@@ -48,12 +48,12 @@
     background: #ffffff;
     border-radius: 16px;
     border: 1px solid var(--border);
-    padding: 20px 24px;
+    padding: 22px 24px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.02);
   }
   .sent-title {
-    font-size: 17px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 800;
     color: #1e293b;
     margin-bottom: 4px;
     display: flex;
@@ -67,7 +67,7 @@
   }
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     gap: 12px;
   }
   .option-card {
@@ -80,9 +80,14 @@
     gap: 8px;
     transition: all 0.2s;
   }
+  .option-card.highlight {
+    background: #eff6ff;
+    border-color: #3b82f6;
+  }
   .option-card:hover {
     border-color: var(--primary);
-    background: #eff6ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
   }
   .option-header {
     display: flex;
@@ -90,8 +95,8 @@
     align-items: center;
   }
   .option-name {
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 14.5px;
+    font-weight: 800;
     color: #1e293b;
   }
   .badge {
@@ -102,13 +107,18 @@
     background: #e2e8f0;
     color: #475569;
   }
-  .badge.recommended {
+  .badge.target {
     background: #dbeafe;
     color: #1d4ed8;
+  }
+  .badge.ref {
+    background: #f1f5f9;
+    color: #94a3b8;
   }
   .option-desc {
     font-size: 12px;
     color: #64748b;
+    min-height: 34px;
   }
   audio {
     width: 100%;
@@ -121,10 +131,10 @@
 <body>
 <div class="container">
   <header>
-    <h1>🎧 七年级点读版 · 词间停顿节奏（时长对比试听）</h1>
+    <h1>🎧 词间停顿微调对比：80ms / 60ms / 40ms / 20ms</h1>
     <div class="intro">
-      初学阶段保留分词停顿非常有利于初学者识别词性与词界。VOICEVOX 默认的空格停顿约为 <b>340 毫秒</b>，听感稍显拖沓。<br>
-      下方针对相同例句，提供了从 <b>微顿（100ms）</b>、<b>适中短顿（130ms）</b>、<b>清晰停顿（160ms）</b>、<b>原版长顿（340ms）</b> 到 <b>完全连读（0ms）</b> 的逐级试听对比：
+      根据您的要求，现已专门生成 <b>80毫秒</b>、<b>60毫秒</b>、<b>40毫秒</b>、<b>20毫秒</b> 的超短延迟档位。<br>
+      下方可点击试听每个档位的真实发音细节，右侧附带了 100ms、0ms 和原版 340ms 作为参照：
     </div>
   </header>
 
@@ -133,52 +143,70 @@
     <div class="sent-title">
       <span>📖 例句一：あした 母と 父の 店へ 行きます。</span>
     </div>
-    <div class="sent-sub">（句内包含 4 处分词位：あした | 母と | 父の | 店へ | 行きます）</div>
+    <div class="sent-sub">（句内 4 处分词位：あした | 母と | 父の | 店へ | 行きます）</div>
 
     <div class="grid">
-      <div class="option-card">
+      <div class="option-card highlight">
         <div class="option-header">
-          <span class="option-name">① 130 毫秒（适中短顿）</span>
-          <span class="badge recommended">推荐 · 舒适适中</span>
+          <span class="option-name">80 毫秒</span>
+          <span class="badge target">当前测试</span>
         </div>
-        <div class="option-desc">词界分辨清晰，既有断句感又十分自然，不拖泥带水。</div>
-        <audio controls src="test_pause_samples/p41_s1_130ms.mp3"></audio>
+        <div class="option-desc">较明确的微换气感，词界依然清晰，比百毫秒更紧凑。</div>
+        <audio controls src="test_pause_samples/p41_s1_80ms.mp3"></audio>
+      </div>
+
+      <div class="option-card highlight">
+        <div class="option-header">
+          <span class="option-name">60 毫秒</span>
+          <span class="badge target">当前测试</span>
+        </div>
+        <div class="option-desc">极短点缀停顿，词与词之间有微小呼吸，连贯度很高。</div>
+        <audio controls src="test_pause_samples/p41_s1_60ms.mp3"></audio>
+      </div>
+
+      <div class="option-card highlight">
+        <div class="option-header">
+          <span class="option-name">40 毫秒</span>
+          <span class="badge target">当前测试</span>
+        </div>
+        <div class="option-desc">极微小音拍间隔，几乎不察觉静音，但音符边界不粘连。</div>
+        <audio controls src="test_pause_samples/p41_s1_40ms.mp3"></audio>
+      </div>
+
+      <div class="option-card highlight">
+        <div class="option-header">
+          <span class="option-name">20 毫秒</span>
+          <span class="badge target">当前测试</span>
+        </div>
+        <div class="option-desc">仅存物理层面的极微缝隙，听感已极度接近完全连读。</div>
+        <audio controls src="test_pause_samples/p41_s1_20ms.mp3"></audio>
       </div>
 
       <div class="option-card">
         <div class="option-header">
-          <span class="option-name">② 100 毫秒（轻微短顿）</span>
-          <span class="badge">偏快流畅</span>
+          <span class="option-name">100 毫秒</span>
+          <span class="badge ref">参照</span>
         </div>
-        <div class="option-desc">微带换气感，更接近成年人说话但略有停顿。</div>
+        <div class="option-desc">0.1 秒轻微短顿，节奏稍舒缓。</div>
         <audio controls src="test_pause_samples/p41_s1_100ms.mp3"></audio>
       </div>
 
       <div class="option-card">
         <div class="option-header">
-          <span class="option-name">③ 160 毫秒（清晰慢顿）</span>
-          <span class="badge">适合跟读</span>
+          <span class="option-name">0 毫秒 (连读)</span>
+          <span class="badge ref">参照</span>
         </div>
-        <div class="option-desc">词与词之间停顿明显，极适合低年级初学者跟着一句一字读。</div>
-        <audio controls src="test_pause_samples/p41_s1_160ms.mp3"></audio>
-      </div>
-
-      <div class="option-card">
-        <div class="option-header">
-          <span class="option-name">④ 默认 ~340 毫秒（原长顿）</span>
-          <span class="badge">原版停顿</span>
-        </div>
-        <div class="option-desc">VOICEVOX 默认空格时长，每词停顿较长。</div>
-        <audio controls src="test_pause_samples/p41_s1_default.mp3"></audio>
-      </div>
-
-      <div class="option-card">
-        <div class="option-header">
-          <span class="option-name">⑤ 完全无停顿（连读）</span>
-          <span class="badge">快速全连</span>
-        </div>
-        <div class="option-desc">词间完全无停顿，一口气快速说完。</div>
+        <div class="option-desc">完全无停顿，一口气连续滑行。</div>
         <audio controls src="test_pause_samples/p41_s1_0ms.mp3"></audio>
+      </div>
+
+      <div class="option-card">
+        <div class="option-header">
+          <span class="option-name">默认 ~340ms</span>
+          <span class="badge ref">原版对照</span>
+        </div>
+        <div class="option-desc">未调整前的较长停顿。</div>
+        <audio controls src="test_pause_samples/p41_s1_default.mp3"></audio>
       </div>
     </div>
   </section>
@@ -188,52 +216,70 @@
     <div class="sent-title">
       <span>📖 例句二：李さんは 今 レストランへ 行きます。</span>
     </div>
-    <div class="sent-sub">（句内包含 3 处分词位：李さんは | 今 | レストランへ | 行きます）</div>
+    <div class="sent-sub">（句内 3 处分词位：李さんは | 今 | レストランへ | 行きます）</div>
 
     <div class="grid">
-      <div class="option-card">
+      <div class="option-card highlight">
         <div class="option-header">
-          <span class="option-name">① 130 毫秒（适中短顿）</span>
-          <span class="badge recommended">推荐 · 舒适适中</span>
+          <span class="option-name">80 毫秒</span>
+          <span class="badge target">当前测试</span>
         </div>
-        <div class="option-desc">词界分辨清晰，既有断句感又十分自然，不拖泥带水。</div>
-        <audio controls src="test_pause_samples/p41_s2_130ms.mp3"></audio>
+        <div class="option-desc">较明确的微换气感，词界依然清晰，比百毫秒更紧凑。</div>
+        <audio controls src="test_pause_samples/p41_s2_80ms.mp3"></audio>
+      </div>
+
+      <div class="option-card highlight">
+        <div class="option-header">
+          <span class="option-name">60 毫秒</span>
+          <span class="badge target">当前测试</span>
+        </div>
+        <div class="option-desc">极短点缀停顿，词与词之间有微小呼吸，连贯度很高。</div>
+        <audio controls src="test_pause_samples/p41_s2_60ms.mp3"></audio>
+      </div>
+
+      <div class="option-card highlight">
+        <div class="option-header">
+          <span class="option-name">40 毫秒</span>
+          <span class="badge target">当前测试</span>
+        </div>
+        <div class="option-desc">极微小音拍间隔，几乎不察觉静音，但音符边界不粘连。</div>
+        <audio controls src="test_pause_samples/p41_s2_40ms.mp3"></audio>
+      </div>
+
+      <div class="option-card highlight">
+        <div class="option-header">
+          <span class="option-name">20 毫秒</span>
+          <span class="badge target">当前测试</span>
+        </div>
+        <div class="option-desc">仅存物理层面的极微缝隙，听感已极度接近完全连读。</div>
+        <audio controls src="test_pause_samples/p41_s2_20ms.mp3"></audio>
       </div>
 
       <div class="option-card">
         <div class="option-header">
-          <span class="option-name">② 100 毫秒（轻微短顿）</span>
-          <span class="badge">偏快流畅</span>
+          <span class="option-name">100 毫秒</span>
+          <span class="badge ref">参照</span>
         </div>
-        <div class="option-desc">微带换气感，更接近成年人说话但略有停顿。</div>
+        <div class="option-desc">0.1 秒轻微短顿，节奏稍舒缓。</div>
         <audio controls src="test_pause_samples/p41_s2_100ms.mp3"></audio>
       </div>
 
       <div class="option-card">
         <div class="option-header">
-          <span class="option-name">③ 160 毫秒（清晰慢顿）</span>
-          <span class="badge">适合跟读</span>
+          <span class="option-name">0 毫秒 (连读)</span>
+          <span class="badge ref">参照</span>
         </div>
-        <div class="option-desc">词与词之间停顿明显，极适合低年级初学者跟着一句一字读。</div>
-        <audio controls src="test_pause_samples/p41_s2_160ms.mp3"></audio>
-      </div>
-
-      <div class="option-card">
-        <div class="option-header">
-          <span class="option-name">④ 默认 ~340 毫秒（原长顿）</span>
-          <span class="badge">原版停顿</span>
-        </div>
-        <div class="option-desc">VOICEVOX 默认空格时长，每词停顿较长。</div>
-        <audio controls src="test_pause_samples/p41_s2_default.mp3"></audio>
-      </div>
-
-      <div class="option-card">
-        <div class="option-header">
-          <span class="option-name">⑤ 完全无停顿（连读）</span>
-          <span class="badge">快速全连</span>
-        </div>
-        <div class="option-desc">词间完全无停顿，一口气快速说完。</div>
+        <div class="option-desc">完全无停顿，一口气连续滑行。</div>
         <audio controls src="test_pause_samples/p41_s2_0ms.mp3"></audio>
+      </div>
+
+      <div class="option-card">
+        <div class="option-header">
+          <span class="option-name">默认 ~340ms</span>
+          <span class="badge ref">原版对照</span>
+        </div>
+        <div class="option-desc">未调整前的较长停顿。</div>
+        <audio controls src="test_pause_samples/p41_s2_default.mp3"></audio>
       </div>
     </div>
   </section>
