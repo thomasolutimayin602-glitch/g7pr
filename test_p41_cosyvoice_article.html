@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>初一日语点读 · PDF 41页课文连贯朗读测试 (CosyVoice 教材原声音色克隆)</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-light: #eff6ff;
+    --border: #e2e8f0;
+    --card-bg: #ffffff;
+    --page-bg: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --highlight-bg: #fef08a;
+    --highlight-border: #eab308;
+    --highlight-shadow: rgba(234, 179, 8, 0.35);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    background: var(--page-bg);
+    color: var(--text-main);
+    line-height: 1.7;
+    padding: 24px 16px 120px;
+  }
+  .container {
+    max-width: 1040px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  header {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 28px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+  }
+  .header-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  h1 { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+  .intro {
+    font-size: 14.5px;
+    color: #334155;
+    background: #f8fafc;
+    padding: 16px 20px;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary);
+    line-height: 1.7;
+  }
+  .intro ul { margin-left: 20px; margin-top: 8px; }
+  .intro li { margin-bottom: 4px; }
+
+  /* Voice Selector Cards */
+  .section-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .voice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px;
+  }
+  .voice-card {
+    background: #ffffff;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    user-select: none;
+  }
+  .voice-card:hover {
+    border-color: #93c5fd;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  }
+  .voice-card.active {
+    border-color: var(--primary);
+    background: #f0f7ff;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+  }
+  .voice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .voice-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .voice-badge {
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 8px;
+    background: #e2e8f0;
+    color: #475569;
+  }
+  .voice-card.active .voice-badge {
+    background: #2563eb;
+    color: #ffffff;
+  }
+  .voice-desc {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.5;
+  }
+
+  /* Reading Stage Card */
+  .reading-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 32px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.03);
+    position: relative;
+  }
+  .reading-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 24px;
+    flex-wrap: gap;
+    gap: 12px;
+  }
+  .reading-current-voice {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .playback-rate-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 10px;
+  }
+  .rate-btn {
+    border: none;
+    background: transparent;
+    padding: 4px 10px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #475569;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .rate-btn.active {
+    background: #ffffff;
+    color: #0f172a;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  /* Paragraph Text Flow */
+  .article-body {
+    font-size: 19px;
+    line-height: 2.6;
+    letter-spacing: 0.04em;
+    color: #1e293b;
+    word-break: break-word;
+  }
+  .sentence-span {
+    display: inline;
+    padding: 3px 6px;
+    margin: 0 2px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1.5px solid transparent;
+  }
+  .sentence-span:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+  }
+  .sentence-span.active {
+    background: #fef08a !important;
+    border-color: #eab308 !important;
+    box-shadow: 0 2px 8px var(--highlight-shadow);
+    font-weight: 600;
+    color: #0f172a;
+  }
+  ruby {
+    ruby-position: over;
+  }
+  rt {
+    font-size: 11px;
+    font-weight: 500;
+    color: #64748b;
+    transform: translateY(-2px);
+  }
+  .sentence-span.active rt {
+    color: #854d0e;
+    font-weight: 700;
+  }
+
+  /* Bottom Sticky Floating Player */
+  .sticky-player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+    padding: 14px 24px;
+    z-index: 100;
+  }
+  .player-inner {
+    max-width: 1040px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .player-controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .play-main-btn {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #ffffff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+    transition: transform 0.15s, background 0.15s;
+  }
+  .play-main-btn:hover {
+    transform: scale(1.06);
+    background: #1d4ed8;
+  }
+  .player-status-box {
+    flex: 1;
+    min-width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .status-line1 {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .status-line2 {
+    font-size: 12.5px;
+    color: #64748b;
+  }
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  .progress-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 6px;
+    position: relative;
+    cursor: pointer;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 6px;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+  .time-disp {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    font-family: monospace;
+  }
+
+  /* Annotation Drawer / Accordion */
+  .details-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 24px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.02);
+  }
+  .annotation-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+    font-size: 13.5px;
+  }
+  .annotation-table th, .annotation-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #f1f5f9;
+    text-align: left;
+    vertical-align: top;
+  }
+  .annotation-table th {
+    background: #f8fafc;
+    color: #475569;
+    font-weight: 700;
+  }
+  .badge-source {
+    background: #dcfce7;
+    color: #15803d;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+  .badge-problem {
+    background: #fee2e2;
+    color: #b91c1c;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+  .mini-play-btn {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .mini-play-btn:hover {
+    background: #e2e8f0;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="header-tag">🎙️ 教材全篇连贯阅读 · CosyVoice 声学克隆实测</div>
+    <h1>七年级日语（第41页）点读文本 · 全篇连贯课文朗读测试</h1>
+    <div class="intro">
+      <p><b>测试目标说明：</b></p>
+      <ul>
+        <li><b>全篇连贯合成</b>：把第 41 页全部 13 个点读热点（例句与练习）整合成完整连贯的一段课文，克服单句割裂感。</li>
+        <li><b>教材原声音色克隆</b>：使用阿里开源 <b>CosyVoice</b> 声学模型，以官方教材原声音频为 Prompt 进行零样本跨语种克隆，提供 <b>4 种真实教材角色音色</b> 一键切换。</li>
+        <li><b>大模型多音字与发音深度标注</b>：全句语义识别，精准判定「本屋(ほんや)」「行きます(いきます)」读音，助词「へ(エ)」「は(ワ)」「を(オ)」精准读准，「母」锁死双辅音 <code>h</code>（杜绝 waha 退化）。</li>
+        <li><b>读到哪一句高亮哪一句</b>：播放时毫秒级同步高亮当前朗读句子并自动平滑跟随，点击任意句子即可直接跳播！</li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Voice Selectors -->
+  <div>
+    <div class="section-title">🎭 选择教材原声音色 (点击切换，全篇无缝换声)</div>
+    <div class="voice-grid" id="voiceGrid">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+
+  <!-- Reading Stage -->
+  <div class="reading-card">
+    <div class="reading-header">
+      <div class="reading-current-voice" id="readingVoiceLabel">
+        <span>当前音色:</span> <b>加载中...</b>
+      </div>
+      <div class="playback-rate-group">
+        <span style="font-size:12px; color:#64748b; font-weight:700; padding-left:4px;">语速:</span>
+        <button class="rate-btn" data-rate="0.8">0.8x</button>
+        <button class="rate-btn" data-rate="0.9">0.9x</button>
+        <button class="rate-btn active" data-rate="1.0">1.0x (原速)</button>
+        <button class="rate-btn" data-rate="1.2">1.2x</button>
+      </div>
+    </div>
+
+    <!-- Article Paragraph View -->
+    <div class="article-body" id="articleBody">
+      <!-- Spans with rubies injected by JS -->
+    </div>
+  </div>
+
+  <!-- LLM Decision & Sentence Breakdown Details -->
+  <div class="details-card">
+    <div class="section-title">
+      <span>🧠 大模型整句深度语义分析与多音字/助词标注明细</span>
+    </div>
+    <div style="font-size:13px; color:#64748b; margin-bottom:12px;">
+      送入 CosyVoice 前，大模型对整句进行语义分析，将多音字、助词特殊音与长音完全确立，生成纯正假名音标串，确保发音与声调 100% 正确。
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="annotation-table">
+        <thead>
+          <tr>
+            <th style="width:50px;">序号</th>
+            <th style="width:160px;">日语句子</th>
+            <th style="width:120px;">中文释义</th>
+            <th>大模型发音决策与重点标注</th>
+            <th style="width:160px;">CosyVoice音标假名</th>
+            <th style="width:110px;">操作</th>
+          </tr>
+        </thead>
+        <tbody id="annotationTbody">
+          <!-- Injected by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Sticky Bottom Player -->
+<div class="sticky-player">
+  <div class="player-inner">
+    <div class="player-controls">
+      <button class="play-main-btn" id="playBtn" title="播放/暂停">▶</button>
+    </div>
+    <div class="player-status-box">
+      <div class="status-line1">
+        <span id="playingIndexBadge" style="background:#eff6ff; color:#1d4ed8; font-size:11px; padding:2px 8px; border-radius:10px;">第 1 / 13 句</span>
+        <span id="playingSentenceText" style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">准备就绪，点击播放整篇朗读</span>
+      </div>
+      <div class="progress-wrap">
+        <span class="time-disp" id="currTimeDisp">00:00</span>
+        <div class="progress-bar-bg" id="progressBarBg">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+        <span class="time-disp" id="totalTimeDisp">00:00</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<audio id="audioPlayer" preload="auto"></audio>
+
+<script>
+let manifest = null;
+let currentVoiceId = "female_narrator";
+let currentPlaybackRate = 1.0;
+let isPlaying = false;
+let currentSentenceIdx = -1;
+
+const audioPlayer = document.getElementById("audioPlayer");
+const playBtn = document.getElementById("playBtn");
+const voiceGrid = document.getElementById("voiceGrid");
+const articleBody = document.getElementById("articleBody");
+const annotationTbody = document.getElementById("annotationTbody");
+const readingVoiceLabel = document.getElementById("readingVoiceLabel");
+const playingIndexBadge = document.getElementById("playingIndexBadge");
+const playingSentenceText = document.getElementById("playingSentenceText");
+const progressBarFill = document.getElementById("progressBarFill");
+const progressBarBg = document.getElementById("progressBarBg");
+const currTimeDisp = document.getElementById("currTimeDisp");
+const totalTimeDisp = document.getElementById("totalTimeDisp");
+
+// Format seconds into MM:SS
+function formatTime(s) {
+  if (isNaN(s)) return "00:00";
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return `${m.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+}
+
+// Ruby mapping for authentic display
+const RUBY_MAP = {
+  "本屋です。": "<ruby>本屋<rt>ほんや</rt></ruby>です。",
+  "駅へ 行きます。": "<ruby>駅<rt>えき</rt></ruby>へ <ruby>行<rt>い</rt></ruby>きます。",
+  "李さんは 今 レストランへ 行きます。": "<ruby>李<rt>り</rt></ruby>さんは <ruby>今<rt>いま</rt></ruby> レストランへ <ruby>行<rt>い</rt></ruby>きます。",
+  "高橋さんは あした 公園へ 行きます。": "<ruby>高橋<rt>たかはし</rt></ruby>さんは あした <ruby>公園<rt>こうえん</rt></ruby>へ <ruby>行<rt>い</rt></ruby>きます。",
+  "中山さん、どこへ 行きますか。": "<ruby>中山<rt>なかやま</rt></ruby>さん、どこへ <ruby>行<rt>い</rt></ruby>きますか。",
+  "本屋へ 行きます。": "<ruby>本屋<rt>ほんや</rt></ruby>へ <ruby>行<rt>い</rt></ruby>きます。",
+  "弟と 行きます。": "<ruby>弟<rt>おとうと</rt></ruby>と <ruby>行<rt>い</rt></ruby>きます。",
+  "あした 母と 父の 店へ 行きます。": "あした <ruby>母<rt>はは</rt></ruby>と <ruby>父<rt>ちち</rt></ruby>の <ruby>店<rt>みせ</rt></ruby>へ <ruby>行<rt>い</rt></ruby>きます。",
+  "あした 周先生と 天津へ 行きます。": "あした <ruby>周先生<rt>しゅうせんせい</rt></ruby>と <ruby>天津<rt>てんしん</rt></ruby>へ <ruby>行<rt>い</rt></ruby>きます。",
+  "誰と 薬屋へ 行きますか。": "<ruby>誰<rt>だれ</rt></ruby>与 <ruby>薬屋<rt>くすりや</rt></ruby>へ <ruby>行<rt>い</rt></ruby>きますか。",
+  "李さんと 行きます。": "<ruby>李<rt>り</rt></ruby>さんと <ruby>行<rt>い</rt></ruby>きます。",
+  "帽子を 買います。": "<ruby>帽子<rt>ぼうし</rt></ruby>を <ruby>買<rt>か</rt></ruby>います。",
+  "あした 母は かばんを 買います。": "あした <ruby>母<rt>はは</rt></ruby>は かばんを <ruby>買<rt>か</rt></ruby>います。"
+};
+
+async function init() {
+  try {
+    const res = await fetch("test_p41_cosyvoice/article_manifest.json");
+    manifest = await res.json();
+    renderVoiceSelectors();
+    selectVoice(currentVoiceId, false);
+    renderAnnotations();
+  } catch (err) {
+    console.error("Failed to load manifest", err);
+    articleBody.innerHTML = `<div style="color:red;">加载配置失败: ${err.message}</div>`;
+  }
+}
+
+function renderVoiceSelectors() {
+  voiceGrid.innerHTML = "";
+  for (const [vid, vdata] of Object.entries(manifest)) {
+    const vinfo = vdata.voice_info;
+    const card = document.createElement("div");
+    card.className = `voice-card ${vid === currentVoiceId ? 'active' : ''}`;
+    card.dataset.vid = vid;
+    card.innerHTML = `
+      <div class="voice-header">
+        <div class="voice-name">${vinfo.name}</div>
+        <div class="voice-badge">${vinfo.badge}</div>
+      </div>
+      <div class="voice-desc">${vinfo.desc}</div>
+      <div style="font-size:11.5px; color:#94a3b8;">时长: ${vdata.total_duration}s · 13句整篇</div>
+    `;
+    card.addEventListener("click", () => selectVoice(vid, true));
+    voiceGrid.appendChild(card);
+  }
+}
+
+function selectVoice(vid, autoPlay = false) {
+  currentVoiceId = vid;
+  const vdata = manifest[vid];
+  const vinfo = vdata.voice_info;
+
+  // Update voice cards
+  document.querySelectorAll(".voice-card").forEach(c => {
+    c.classList.toggle("active", c.dataset.vid === vid);
+  });
+
+  readingVoiceLabel.innerHTML = `<span>当前朗读音色:</span> <b style="color:${vinfo.color};">${vinfo.name}</b> (${vinfo.badge})`;
+
+  // Update audio source
+  const prevTime = audioPlayer.currentTime || 0;
+  audioPlayer.src = vdata.article_audio;
+  audioPlayer.playbackRate = currentPlaybackRate;
+
+  renderArticleText(vdata.sentences);
+
+  if (autoPlay) {
+    audioPlayer.currentTime = prevTime;
+    audioPlayer.play().catch(e => console.log(e));
+  }
+}
+
+function renderArticleText(sentences) {
+  articleBody.innerHTML = "";
+  sentences.forEach((s, idx) => {
+    const span = document.createElement("span");
+    span.className = "sentence-span";
+    span.id = `sent-node-${idx}`;
+    span.dataset.idx = idx;
+    span.dataset.start = s.start;
+    span.dataset.end = s.end;
+
+    const rubyHtml = RUBY_MAP[s.japanese] || s.japanese;
+    span.innerHTML = `${rubyHtml} `;
+
+    span.addEventListener("click", () => {
+      audioPlayer.currentTime = s.start;
+      audioPlayer.play();
+    });
+
+    articleBody.appendChild(span);
+  });
+}
+
+function renderAnnotations() {
+  const sentences = manifest[currentVoiceId].sentences;
+  annotationTbody.innerHTML = "";
+  sentences.forEach((s, idx) => {
+    const tr = document.createElement("tr");
+    let sourceBtn = "";
+    if (s.has_source && s.source_slice) {
+      sourceBtn = `<button class="mini-play-btn" onclick="playSingleAudio('${s.source_slice}')" style="color:#16a34a; margin-top:4px;">🎧 听教材真声</button>`;
+    }
+    const singleAudioBtn = `<button class="mini-play-btn" onclick="playSingleAudio('test_p41_cosyvoice/${currentVoiceId}_${s.id}.mp3')">▶ 试听本句</button>`;
+
+    tr.innerHTML = `
+      <td><b>${idx + 1}</b></td>
+      <td>
+        <b style="color:#1e293b;">${s.japanese}</b>
+        ${s.has_source ? '<br><span class="badge-source">教材原声切片</span>' : ''}
+        ${s.analysis.includes('★') ? '<br><span class="badge-problem">重点纠偏</span>' : ''}
+      </td>
+      <td style="color:#475569;">${s.chinese}</td>
+      <td style="color:#334155; line-height:1.6;">${s.analysis}</td>
+      <td><code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-size:12px; color:#0369a1;">${s.kata}</code></td>
+      <td>
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          ${singleAudioBtn}
+          ${sourceBtn}
+        </div>
+      </td>
+    `;
+    annotationTbody.appendChild(tr);
+  });
+}
+
+// Single audio preview popup / player
+function playSingleAudio(url) {
+  const tmpAudio = new Audio(url);
+  tmpAudio.play();
+}
+
+// Rate buttons
+document.querySelectorAll(".rate-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".rate-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentPlaybackRate = parseFloat(btn.dataset.rate);
+    audioPlayer.playbackRate = currentPlaybackRate;
+  });
+});
+
+// Player controls
+playBtn.addEventListener("click", () => {
+  if (audioPlayer.paused) {
+    audioPlayer.play();
+  } else {
+    audioPlayer.pause();
+  }
+});
+
+audioPlayer.addEventListener("play", () => {
+  isPlaying = true;
+  playBtn.innerHTML = "❚❚";
+});
+
+audioPlayer.addEventListener("pause", () => {
+  isPlaying = false;
+  playBtn.innerHTML = "▶";
+});
+
+audioPlayer.addEventListener("timeupdate", () => {
+  const cur = audioPlayer.currentTime;
+  const dur = audioPlayer.duration || 1;
+  currTimeDisp.textContent = formatTime(cur);
+  totalTimeDisp.textContent = formatTime(dur);
+  progressBarFill.style.width = `${(cur / dur) * 100}%`;
+
+  if (!manifest || !manifest[currentVoiceId]) return;
+  const sents = manifest[currentVoiceId].sentences;
+
+  let activeIdx = -1;
+  for (let i = 0; i < sents.length; i++) {
+    if (cur >= sents[i].start && cur < sents[i].end) {
+      activeIdx = i;
+      break;
+    }
+  }
+
+  if (activeIdx !== currentSentenceIdx) {
+    currentSentenceIdx = activeIdx;
+    document.querySelectorAll(".sentence-span").forEach((span, idx) => {
+      span.classList.toggle("active", idx === activeIdx);
+    });
+
+    if (activeIdx >= 0) {
+      const activeSpan = document.getElementById(`sent-node-${activeIdx}`);
+      if (activeSpan) {
+        activeSpan.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+      const s = sents[activeIdx];
+      playingIndexBadge.textContent = `第 ${activeIdx + 1} / 13 句`;
+      playingSentenceText.textContent = `${s.japanese} (${s.chinese})`;
+    } else {
+      playingIndexBadge.textContent = `停顿换气中`;
+    }
+  }
+});
+
+// Seek bar click
+progressBarBg.addEventListener("click", (e) => {
+  const rect = progressBarBg.getBoundingClientRect();
+  const pos = (e.clientX - rect.left) / rect.width;
+  if (audioPlayer.duration) {
+    audioPlayer.currentTime = pos * audioPlayer.duration;
+  }
+});
+
+init();
+</script>
+</body>
+</html>
