@@ -1,3 +1,15 @@
 *.json
 *.md
 .DS_Store
+
+# Local audio experiments and verification pages are not part of the release.
+/audio_cloned/
+/test_*.html
+/test_*_audio/
+/test_*_cosyvoice/
+/test_*_samples/
+/test_*_speakers/
+/tts_passage.html
+/tts_passage/
+/tts_verification.html
+/tts_verify_audio/
