@@ -257,9 +257,70 @@
       }
       .panel-content { max-height: calc(100dvh - 136px); }
     }
+  
+    /* audio2 long-press & toast styles */
+    .audio2-toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(35, 30, 24, 0.92);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 24px;
+      font-size: 14px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(8px);
+    }
+    .audio2-toast.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .long-press-ring {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 999;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+    .long-press-ring svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    .long-press-ring circle.bg {
+      stroke: rgba(224, 96, 0, 0.25);
+      stroke-width: 4;
+      fill: none;
+    }
+    .long-press-ring circle.progress {
+      stroke: #e06000;
+      stroke-width: 4;
+      stroke-linecap: round;
+      fill: none;
+      stroke-dasharray: 163.36;
+      stroke-dashoffset: 163.36;
+      transition: stroke-dashoffset 3s linear;
+    }
+    .long-press-ring.holding circle.progress {
+      stroke-dashoffset: 0;
+    }
+
   </style>
 </head>
 <body>
+  <div id="long-press-ring" class="long-press-ring"><svg viewBox="0 0 60 60"><circle class="bg" cx="30" cy="30" r="26"></circle><circle class="progress" cx="30" cy="30" r="26"></circle></svg></div>
   <div class="app">
     <nav class="nav" aria-label="page navigation">
       <a href="page-054.html" class="">上一页</a>
@@ -1035,40 +1096,40 @@
   <div class="hit" style='left:278.447px;top:118.335px;width:174.000px;height:16.500px;'></div>
 </div><div class="point-hotspot sentence" data-target="h-003" data-char-ids="[&quot;c00137&quot;, &quot;c00138&quot;, &quot;c00139&quot;, &quot;c00140&quot;, &quot;c00141&quot;, &quot;c00142&quot;, &quot;c00143&quot;, &quot;c00144&quot;, &quot;c00145&quot;, &quot;c00146&quot;, &quot;c00147&quot;, &quot;c00148&quot;, &quot;c00149&quot;, &quot;c00150&quot;, &quot;c00151&quot;, &quot;c00152&quot;]" data-audio-id="7de3e71627784128" data-audio-src="audio/7de3e71627784128.mp3" data-source-src="" title="めまして、……どうぞよろしく”。">
   <div class="hit" style='left:42.200px;top:181.036px;width:170.063px;height:18.348px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-004" data-char-ids="[&quot;c00175&quot;, &quot;c00176&quot;, &quot;c00177&quot;, &quot;c00178&quot;, &quot;c00179&quot;, &quot;c00180&quot;, &quot;c00181&quot;, &quot;c00182&quot;, &quot;c00185&quot;, &quot;c00188&quot;, &quot;c00191&quot;, &quot;c00192&quot;, &quot;c00193&quot;]" data-audio-id="bc15e71496e87e8e" data-audio-src="audio/bc15e71496e87e8e.mp3" data-source-src="" title="はじめまして、黄楽楽です。">
+</div><div class="point-hotspot sentence" data-target="h-004" data-char-ids="[&quot;c00175&quot;, &quot;c00176&quot;, &quot;c00177&quot;, &quot;c00178&quot;, &quot;c00179&quot;, &quot;c00180&quot;, &quot;c00181&quot;, &quot;c00182&quot;, &quot;c00185&quot;, &quot;c00188&quot;, &quot;c00191&quot;, &quot;c00192&quot;, &quot;c00193&quot;]" data-audio-id="bc15e71496e87e8e" data-audio-src="audio/bc15e71496e87e8e.mp3" data-source-src="" title="はじめまして、黄楽楽です。" data-audio2-src="audio2/p44_h004.mp3">
   <div class="hit" style='left:109.889px;top:223.334px;width:145.967px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-005" data-char-ids="[&quot;c00194&quot;, &quot;c00195&quot;, &quot;c00196&quot;, &quot;c00199&quot;, &quot;c00200&quot;, &quot;c00201&quot;, &quot;c00202&quot;, &quot;c00205&quot;, &quot;c00206&quot;, &quot;c00209&quot;, &quot;c00210&quot;, &quot;c00211&quot;, &quot;c00212&quot;, &quot;c00213&quot;]" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3" data-source-src="source_audio_slices/e8b61d0ae71c1885.mp3" title="どうぞよろしくお願いします。">
+</div><div class="point-hotspot sentence" data-target="h-005" data-char-ids="[&quot;c00194&quot;, &quot;c00195&quot;, &quot;c00196&quot;, &quot;c00199&quot;, &quot;c00200&quot;, &quot;c00201&quot;, &quot;c00202&quot;, &quot;c00205&quot;, &quot;c00206&quot;, &quot;c00209&quot;, &quot;c00210&quot;, &quot;c00211&quot;, &quot;c00212&quot;, &quot;c00213&quot;]" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3" data-source-src="source_audio_slices/e8b61d0ae71c1885.mp3" title="どうぞよろしくお願いします。" data-audio2-src="audio2/p44_h005.mp3">
   <div class="hit" style='left:250.202px;top:223.334px;width:178.159px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-006" data-char-ids="[&quot;c00241&quot;, &quot;c00242&quot;, &quot;c00243&quot;, &quot;c00244&quot;, &quot;c00245&quot;, &quot;c00246&quot;, &quot;c00247&quot;, &quot;c00248&quot;, &quot;c00251&quot;, &quot;c00254&quot;, &quot;c00258&quot;, &quot;c00259&quot;, &quot;c00260&quot;]" data-audio-id="7f28c1baa90240a0" data-audio-src="audio/7f28c1baa90240a0.mp3" data-source-src="" title="はじめまして、高橋宏です。">
+</div><div class="point-hotspot sentence" data-target="h-006" data-char-ids="[&quot;c00241&quot;, &quot;c00242&quot;, &quot;c00243&quot;, &quot;c00244&quot;, &quot;c00245&quot;, &quot;c00246&quot;, &quot;c00247&quot;, &quot;c00248&quot;, &quot;c00251&quot;, &quot;c00254&quot;, &quot;c00258&quot;, &quot;c00259&quot;, &quot;c00260&quot;]" data-audio-id="7f28c1baa90240a0" data-audio-src="audio/7f28c1baa90240a0.mp3" data-source-src="" title="はじめまして、高橋宏です。" data-audio2-src="audio2/p44_h006.mp3">
   <div class="hit" style='left:109.501px;top:265.334px;width:145.973px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-007" data-char-ids="[&quot;c00261&quot;, &quot;c00262&quot;, &quot;c00263&quot;, &quot;c00265&quot;, &quot;c00266&quot;, &quot;c00267&quot;, &quot;c00268&quot;, &quot;c00269&quot;]" data-audio-id="9e9c6649dd13cc2f" data-audio-src="audio/9e9c6649dd13cc2f.mp3" data-source-src="source_audio_slices/9e9c6649dd13cc2f.mp3" title="どうぞよろしく。">
+</div><div class="point-hotspot sentence" data-target="h-007" data-char-ids="[&quot;c00261&quot;, &quot;c00262&quot;, &quot;c00263&quot;, &quot;c00265&quot;, &quot;c00266&quot;, &quot;c00267&quot;, &quot;c00268&quot;, &quot;c00269&quot;]" data-audio-id="9e9c6649dd13cc2f" data-audio-src="audio/9e9c6649dd13cc2f.mp3" data-source-src="source_audio_slices/9e9c6649dd13cc2f.mp3" title="どうぞよろしく。" data-audio2-src="audio2/p44_h007.mp3">
   <div class="hit" style='left:249.852px;top:265.334px;width:102.757px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-008" data-char-ids="[&quot;c00294&quot;, &quot;c00295&quot;, &quot;c00296&quot;, &quot;c00297&quot;, &quot;c00298&quot;, &quot;c00299&quot;, &quot;c00300&quot;, &quot;c00301&quot;, &quot;c00305&quot;, &quot;c00308&quot;, &quot;c00311&quot;, &quot;c00312&quot;, &quot;c00313&quot;]" data-audio-id="93c5b780fb825e7c" data-audio-src="audio/93c5b780fb825e7c.mp3" data-source-src="" title="はじめまして、張文浩です。">
+</div><div class="point-hotspot sentence" data-target="h-008" data-char-ids="[&quot;c00294&quot;, &quot;c00295&quot;, &quot;c00296&quot;, &quot;c00297&quot;, &quot;c00298&quot;, &quot;c00299&quot;, &quot;c00300&quot;, &quot;c00301&quot;, &quot;c00305&quot;, &quot;c00308&quot;, &quot;c00311&quot;, &quot;c00312&quot;, &quot;c00313&quot;]" data-audio-id="93c5b780fb825e7c" data-audio-src="audio/93c5b780fb825e7c.mp3" data-source-src="" title="はじめまして、張文浩です。" data-audio2-src="audio2/p44_h008.mp3">
   <div class="hit" style='left:109.994px;top:307.334px;width:145.925px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-009" data-char-ids="[&quot;c00314&quot;, &quot;c00315&quot;, &quot;c00316&quot;, &quot;c00318&quot;, &quot;c00319&quot;, &quot;c00320&quot;, &quot;c00321&quot;, &quot;c00322&quot;]" data-audio-id="9e9c6649dd13cc2f" data-audio-src="audio/9e9c6649dd13cc2f.mp3" data-source-src="source_audio_slices/9e9c6649dd13cc2f.mp3" title="どうぞよろしく。">
+</div><div class="point-hotspot sentence" data-target="h-009" data-char-ids="[&quot;c00314&quot;, &quot;c00315&quot;, &quot;c00316&quot;, &quot;c00318&quot;, &quot;c00319&quot;, &quot;c00320&quot;, &quot;c00321&quot;, &quot;c00322&quot;]" data-audio-id="9e9c6649dd13cc2f" data-audio-src="audio/9e9c6649dd13cc2f.mp3" data-source-src="source_audio_slices/9e9c6649dd13cc2f.mp3" title="どうぞよろしく。" data-audio2-src="audio2/p44_h009.mp3">
   <div class="hit" style='left:250.265px;top:307.334px;width:102.579px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-010" data-char-ids="[&quot;c00375&quot;, &quot;c00376&quot;, &quot;c00377&quot;, &quot;c00378&quot;, &quot;c00379&quot;, &quot;c00380&quot;, &quot;c00381&quot;, &quot;c00382&quot;, &quot;c00386&quot;, &quot;c00389&quot;, &quot;c00390&quot;, &quot;c00391&quot;]" data-audio-id="0c213fe68ab8860c" data-audio-src="audio/0c213fe68ab8860c.mp3" data-source-src="" title="はじめまして、周静です。">
+</div><div class="point-hotspot sentence" data-target="h-010" data-char-ids="[&quot;c00375&quot;, &quot;c00376&quot;, &quot;c00377&quot;, &quot;c00378&quot;, &quot;c00379&quot;, &quot;c00380&quot;, &quot;c00381&quot;, &quot;c00382&quot;, &quot;c00386&quot;, &quot;c00389&quot;, &quot;c00390&quot;, &quot;c00391&quot;]" data-audio-id="0c213fe68ab8860c" data-audio-src="audio/0c213fe68ab8860c.mp3" data-source-src="" title="はじめまして、周静です。" data-audio2-src="audio2/p44_h010.mp3">
   <div class="hit" style='left:110.330px;top:370.334px;width:133.409px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-011" data-char-ids="[&quot;c00392&quot;, &quot;c00396&quot;, &quot;c00399&quot;, &quot;c00402&quot;, &quot;c00403&quot;, &quot;c00404&quot;]" data-audio-id="0162d5e238067419" data-audio-src="audio/0162d5e238067419.mp3" data-source-src="" title="中国人です。">
+</div><div class="point-hotspot sentence" data-target="h-011" data-char-ids="[&quot;c00392&quot;, &quot;c00396&quot;, &quot;c00399&quot;, &quot;c00402&quot;, &quot;c00403&quot;, &quot;c00404&quot;]" data-audio-id="0162d5e238067419" data-audio-src="audio/0162d5e238067419.mp3" data-source-src="" title="中国人です。" data-audio2-src="audio2/p44_h011.mp3">
   <div class="hit" style='left:237.897px;top:370.334px;width:69.625px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-012" data-char-ids="[&quot;c00405&quot;, &quot;c00406&quot;, &quot;c00407&quot;, &quot;c00409&quot;, &quot;c00410&quot;, &quot;c00411&quot;, &quot;c00412&quot;, &quot;c00415&quot;, &quot;c00416&quot;, &quot;c00419&quot;, &quot;c00420&quot;, &quot;c00421&quot;, &quot;c00422&quot;, &quot;c00423&quot;]" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3" data-source-src="source_audio_slices/e8b61d0ae71c1885.mp3" title="どうぞよろしくお願いします。">
+</div><div class="point-hotspot sentence" data-target="h-012" data-char-ids="[&quot;c00405&quot;, &quot;c00406&quot;, &quot;c00407&quot;, &quot;c00409&quot;, &quot;c00410&quot;, &quot;c00411&quot;, &quot;c00412&quot;, &quot;c00415&quot;, &quot;c00416&quot;, &quot;c00419&quot;, &quot;c00420&quot;, &quot;c00421&quot;, &quot;c00422&quot;, &quot;c00423&quot;]" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3" data-source-src="source_audio_slices/e8b61d0ae71c1885.mp3" title="どうぞよろしくお願いします。" data-audio2-src="audio2/p44_h012.mp3">
   <div class="hit" style='left:301.680px;top:370.334px;width:154.723px;height:16.500px;'></div>
   <div class="hit" style='left:109.195px;top:391.334px;width:27.000px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-013" data-char-ids="[&quot;c00452&quot;, &quot;c00453&quot;, &quot;c00454&quot;, &quot;c00455&quot;, &quot;c00456&quot;, &quot;c00457&quot;, &quot;c00458&quot;, &quot;c00459&quot;, &quot;c00462&quot;, &quot;c00464&quot;, &quot;c00467&quot;, &quot;c00470&quot;, &quot;c00471&quot;, &quot;c00472&quot;]" data-audio-id="01eaafc95fb03470" data-audio-src="audio/01eaafc95fb03470.mp3" data-source-src="" title="はじめまして、藤田健一です。">
+</div><div class="point-hotspot sentence" data-target="h-013" data-char-ids="[&quot;c00452&quot;, &quot;c00453&quot;, &quot;c00454&quot;, &quot;c00455&quot;, &quot;c00456&quot;, &quot;c00457&quot;, &quot;c00458&quot;, &quot;c00459&quot;, &quot;c00462&quot;, &quot;c00464&quot;, &quot;c00467&quot;, &quot;c00470&quot;, &quot;c00471&quot;, &quot;c00472&quot;]" data-audio-id="01eaafc95fb03470" data-audio-src="audio/01eaafc95fb03470.mp3" data-source-src="" title="はじめまして、藤田健一です。" data-audio2-src="audio2/p44_h013.mp3">
   <div class="hit" style='left:109.818px;top:412.334px;width:156.844px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-014" data-char-ids="[&quot;c00473&quot;, &quot;c00474&quot;, &quot;c00475&quot;, &quot;c00478&quot;, &quot;c00479&quot;, &quot;c00480&quot;, &quot;c00481&quot;, &quot;c00484&quot;, &quot;c00485&quot;, &quot;c00488&quot;, &quot;c00489&quot;, &quot;c00490&quot;, &quot;c00491&quot;, &quot;c00492&quot;]" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3" data-source-src="source_audio_slices/e8b61d0ae71c1885.mp3" title="どうぞよろしくお願いします。">
+</div><div class="point-hotspot sentence" data-target="h-014" data-char-ids="[&quot;c00473&quot;, &quot;c00474&quot;, &quot;c00475&quot;, &quot;c00478&quot;, &quot;c00479&quot;, &quot;c00480&quot;, &quot;c00481&quot;, &quot;c00484&quot;, &quot;c00485&quot;, &quot;c00488&quot;, &quot;c00489&quot;, &quot;c00490&quot;, &quot;c00491&quot;, &quot;c00492&quot;]" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3" data-source-src="source_audio_slices/e8b61d0ae71c1885.mp3" title="どうぞよろしくお願いします。" data-audio2-src="audio2/p44_h014.mp3">
   <div class="hit" style='left:261.008px;top:412.334px;width:178.190px;height:16.500px;'></div>
 </div><div class="point-hotspot sentence" data-target="h-015" data-char-ids="[&quot;c00513&quot;, &quot;c00514&quot;, &quot;c00516&quot;, &quot;c00517&quot;, &quot;c00518&quot;, &quot;c00519&quot;, &quot;c00521&quot;, &quot;c00522&quot;, &quot;c00523&quot;, &quot;c00524&quot;, &quot;c00525&quot;, &quot;c00526&quot;]" data-audio-id="589760e2e17b651d" data-audio-src="audio/589760e2e17b651d.mp3" data-source-src="" title="同じ クラスの 李悠然です。">
   <div class="hit" style='left:57.939px;top:474.961px;width:153.000px;height:18.295px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-016" data-char-ids="[&quot;c00618&quot;, &quot;c00621&quot;, &quot;c00623&quot;, &quot;c00624&quot;, &quot;c00625&quot;, &quot;c00626&quot;, &quot;c00628&quot;, &quot;c00631&quot;, &quot;c00634&quot;, &quot;c00635&quot;, &quot;c00636&quot;]" data-audio-id="c2561d8cd6eab388" data-audio-src="audio/c2561d8cd6eab388.mp3" data-source-src="" title="同じ クラスの 陳鋭です。">
+</div><div class="point-hotspot sentence" data-target="h-016" data-char-ids="[&quot;c00618&quot;, &quot;c00621&quot;, &quot;c00623&quot;, &quot;c00624&quot;, &quot;c00625&quot;, &quot;c00626&quot;, &quot;c00628&quot;, &quot;c00631&quot;, &quot;c00634&quot;, &quot;c00635&quot;, &quot;c00636&quot;]" data-audio-id="c2561d8cd6eab388" data-audio-src="audio/c2561d8cd6eab388.mp3" data-source-src="" title="同じ クラスの 陳鋭です。" data-audio2-src="audio2/p44_h016.mp3">
   <div class="hit" style='left:111.117px;top:559.334px;width:142.500px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-017" data-char-ids="[&quot;c00655&quot;, &quot;c00658&quot;, &quot;c00661&quot;, &quot;c00662&quot;, &quot;c00663&quot;]" data-audio-id="accabe130f6fb0d0" data-audio-src="audio/accabe130f6fb0d0.mp3" data-source-src="" title="陳鋭です。">
+</div><div class="point-hotspot sentence" data-target="h-017" data-char-ids="[&quot;c00655&quot;, &quot;c00658&quot;, &quot;c00661&quot;, &quot;c00662&quot;, &quot;c00663&quot;]" data-audio-id="accabe130f6fb0d0" data-audio-src="audio/accabe130f6fb0d0.mp3" data-source-src="" title="陳鋭です。" data-audio2-src="audio2/p44_h017.mp3">
   <div class="hit" style='left:111.090px;top:580.334px;width:60.105px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-018" data-char-ids="[&quot;c00664&quot;, &quot;c00665&quot;, &quot;c00666&quot;, &quot;c00667&quot;, &quot;c00668&quot;, &quot;c00669&quot;, &quot;c00670&quot;, &quot;c00671&quot;, &quot;c00672&quot;, &quot;c00673&quot;, &quot;c00675&quot;, &quot;c00676&quot;, &quot;c00677&quot;, &quot;c00678&quot;, &quot;c00679&quot;]" data-audio-id="db538bffd75fd219" data-audio-src="audio/db538bffd75fd219.mp3" data-source-src="" title="はじめまして、どうぞよろしく。">
+</div><div class="point-hotspot sentence" data-target="h-018" data-char-ids="[&quot;c00664&quot;, &quot;c00665&quot;, &quot;c00666&quot;, &quot;c00667&quot;, &quot;c00668&quot;, &quot;c00669&quot;, &quot;c00670&quot;, &quot;c00671&quot;, &quot;c00672&quot;, &quot;c00673&quot;, &quot;c00675&quot;, &quot;c00676&quot;, &quot;c00677&quot;, &quot;c00678&quot;, &quot;c00679&quot;]" data-audio-id="db538bffd75fd219" data-audio-src="audio/db538bffd75fd219.mp3" data-source-src="" title="はじめまして、どうぞよろしく。" data-audio2-src="audio2/p44_h018.mp3">
   <div class="hit" style='left:165.730px;top:580.334px;width:180.426px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-019" data-char-ids="[&quot;c00702&quot;, &quot;c00703&quot;, &quot;c00704&quot;, &quot;c00705&quot;, &quot;c00706&quot;, &quot;c00707&quot;, &quot;c00708&quot;, &quot;c00709&quot;, &quot;c00711&quot;, &quot;c00714&quot;, &quot;c00716&quot;, &quot;c00718&quot;, &quot;c00719&quot;, &quot;c00720&quot;]" data-audio-id="5e841d5037d32f72" data-audio-src="audio/5e841d5037d32f72.mp3" data-source-src="" title="はじめまして、佐藤百合です。">
+</div><div class="point-hotspot sentence" data-target="h-019" data-char-ids="[&quot;c00702&quot;, &quot;c00703&quot;, &quot;c00704&quot;, &quot;c00705&quot;, &quot;c00706&quot;, &quot;c00707&quot;, &quot;c00708&quot;, &quot;c00709&quot;, &quot;c00711&quot;, &quot;c00714&quot;, &quot;c00716&quot;, &quot;c00718&quot;, &quot;c00719&quot;, &quot;c00720&quot;]" data-audio-id="5e841d5037d32f72" data-audio-src="audio/5e841d5037d32f72.mp3" data-source-src="" title="はじめまして、佐藤百合です。" data-audio2-src="audio2/p44_h019.mp3">
   <div class="hit" style='left:108.850px;top:622.334px;width:157.282px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-020" data-char-ids="[&quot;c00721&quot;, &quot;c00722&quot;, &quot;c00723&quot;, &quot;c00725&quot;, &quot;c00726&quot;, &quot;c00727&quot;, &quot;c00728&quot;, &quot;c00729&quot;]" data-audio-id="9e9c6649dd13cc2f" data-audio-src="audio/9e9c6649dd13cc2f.mp3" data-source-src="source_audio_slices/9e9c6649dd13cc2f.mp3" title="どうぞよろしく。">
+</div><div class="point-hotspot sentence" data-target="h-020" data-char-ids="[&quot;c00721&quot;, &quot;c00722&quot;, &quot;c00723&quot;, &quot;c00725&quot;, &quot;c00726&quot;, &quot;c00727&quot;, &quot;c00728&quot;, &quot;c00729&quot;]" data-audio-id="9e9c6649dd13cc2f" data-audio-src="audio/9e9c6649dd13cc2f.mp3" data-source-src="source_audio_slices/9e9c6649dd13cc2f.mp3" title="どうぞよろしく。" data-audio2-src="audio2/p44_h020.mp3">
   <div class="hit" style='left:260.520px;top:622.334px;width:102.831px;height:16.500px;'></div>
 </div>
             
@@ -1082,25 +1143,25 @@
         <h1>第 44 页</h1>
         <p class="meta">优先标出完整日语句子；本页没有完整句时才标出日语词汇。中文说明和单独假名不生成点读热区。本页 20 个热区。</p>
         <ol><li><button type="button" data-target="h-001" data-audio-id="338c3e16693971a5" data-audio-src="audio/338c3e16693971a5.mp3"><b>句</b>はじめまして、青山中学校の 鈴木直美です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-002" data-audio-id="febf6fd67467635d" data-audio-src="audio/febf6fd67467635d.mp3"><b>句</b>どうぞよろしくお願いします。<span class="audio-badge source">原声</span></button></li>
+<li><button type="button" data-target="h-002" data-audio-id="febf6fd67467635d" data-audio-src="audio/febf6fd67467635d.mp3"><b>句</b>どうぞよろしくお願いします。<span class="audio-badge pending">合成音</span></button></li>
 <li><button type="button" data-target="h-003" data-audio-id="7de3e71627784128" data-audio-src="audio/7de3e71627784128.mp3"><b>句</b>めまして、……どうぞよろしく”。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-004" data-audio-id="bc15e71496e87e8e" data-audio-src="audio/bc15e71496e87e8e.mp3"><b>句</b>はじめまして、黄楽楽です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-005" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3"><b>句</b>どうぞよろしくお願いします。<span class="audio-badge source">原声</span></button></li>
-<li><button type="button" data-target="h-006" data-audio-id="7f28c1baa90240a0" data-audio-src="audio/7f28c1baa90240a0.mp3"><b>句</b>はじめまして、高橋宏です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-007" data-audio-id="9e9c6649dd13cc2f" data-audio-src="audio/9e9c6649dd13cc2f.mp3"><b>句</b>どうぞよろしく。<span class="audio-badge source">原声</span></button></li>
-<li><button type="button" data-target="h-008" data-audio-id="93c5b780fb825e7c" data-audio-src="audio/93c5b780fb825e7c.mp3"><b>句</b>はじめまして、張文浩です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-009" data-audio-id="9e9c6649dd13cc2f" data-audio-src="audio/9e9c6649dd13cc2f.mp3"><b>句</b>どうぞよろしく。<span class="audio-badge source">原声</span></button></li>
-<li><button type="button" data-target="h-010" data-audio-id="0c213fe68ab8860c" data-audio-src="audio/0c213fe68ab8860c.mp3"><b>句</b>はじめまして、周静です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-011" data-audio-id="0162d5e238067419" data-audio-src="audio/0162d5e238067419.mp3"><b>句</b>中国人です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-012" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3"><b>句</b>どうぞよろしくお願いします。<span class="audio-badge source">原声</span></button></li>
-<li><button type="button" data-target="h-013" data-audio-id="01eaafc95fb03470" data-audio-src="audio/01eaafc95fb03470.mp3"><b>句</b>はじめまして、藤田健一です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-014" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3"><b>句</b>どうぞよろしくお願いします。<span class="audio-badge source">原声</span></button></li>
+<li><button type="button" data-target="h-004" data-audio-id="bc15e71496e87e8e" data-audio-src="audio/bc15e71496e87e8e.mp3" data-audio2-src="audio2/p44_h004.mp3"><b>句</b>はじめまして、黄楽楽です。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-005" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3" data-audio2-src="audio2/p44_h005.mp3"><b>句</b>どうぞよろしくお願いします。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-006" data-audio-id="7f28c1baa90240a0" data-audio-src="audio/7f28c1baa90240a0.mp3" data-audio2-src="audio2/p44_h006.mp3"><b>句</b>はじめまして、高橋宏です。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-007" data-audio-id="9e9c6649dd13cc2f" data-audio-src="audio/9e9c6649dd13cc2f.mp3" data-audio2-src="audio2/p44_h007.mp3"><b>句</b>どうぞよろしく。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-008" data-audio-id="93c5b780fb825e7c" data-audio-src="audio/93c5b780fb825e7c.mp3" data-audio2-src="audio2/p44_h008.mp3"><b>句</b>はじめまして、張文浩です。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-009" data-audio-id="9e9c6649dd13cc2f" data-audio-src="audio/9e9c6649dd13cc2f.mp3" data-audio2-src="audio2/p44_h009.mp3"><b>句</b>どうぞよろしく。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-010" data-audio-id="0c213fe68ab8860c" data-audio-src="audio/0c213fe68ab8860c.mp3" data-audio2-src="audio2/p44_h010.mp3"><b>句</b>はじめまして、周静です。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-011" data-audio-id="0162d5e238067419" data-audio-src="audio/0162d5e238067419.mp3" data-audio2-src="audio2/p44_h011.mp3"><b>句</b>中国人です。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-012" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3" data-audio2-src="audio2/p44_h012.mp3"><b>句</b>どうぞよろしくお願いします。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-013" data-audio-id="01eaafc95fb03470" data-audio-src="audio/01eaafc95fb03470.mp3" data-audio2-src="audio2/p44_h013.mp3"><b>句</b>はじめまして、藤田健一です。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-014" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3" data-audio2-src="audio2/p44_h014.mp3"><b>句</b>どうぞよろしくお願いします。<span class="audio-badge pending">合成音</span></button></li>
 <li><button type="button" data-target="h-015" data-audio-id="589760e2e17b651d" data-audio-src="audio/589760e2e17b651d.mp3"><b>句</b>同じ クラスの 李悠然です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-016" data-audio-id="c2561d8cd6eab388" data-audio-src="audio/c2561d8cd6eab388.mp3"><b>句</b>同じ クラスの 陳鋭です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-017" data-audio-id="accabe130f6fb0d0" data-audio-src="audio/accabe130f6fb0d0.mp3"><b>句</b>陳鋭です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-018" data-audio-id="db538bffd75fd219" data-audio-src="audio/db538bffd75fd219.mp3"><b>句</b>はじめまして、どうぞよろしく。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-019" data-audio-id="5e841d5037d32f72" data-audio-src="audio/5e841d5037d32f72.mp3"><b>句</b>はじめまして、佐藤百合です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-020" data-audio-id="9e9c6649dd13cc2f" data-audio-src="audio/9e9c6649dd13cc2f.mp3"><b>句</b>どうぞよろしく。<span class="audio-badge source">原声</span></button></li></ol>
+<li><button type="button" data-target="h-016" data-audio-id="c2561d8cd6eab388" data-audio-src="audio/c2561d8cd6eab388.mp3" data-audio2-src="audio2/p44_h016.mp3"><b>句</b>同じ クラスの 陳鋭です。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-017" data-audio-id="accabe130f6fb0d0" data-audio-src="audio/accabe130f6fb0d0.mp3" data-audio2-src="audio2/p44_h017.mp3"><b>句</b>陳鋭です。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-018" data-audio-id="db538bffd75fd219" data-audio-src="audio/db538bffd75fd219.mp3" data-audio2-src="audio2/p44_h018.mp3"><b>句</b>はじめまして、どうぞよろしく。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-019" data-audio-id="5e841d5037d32f72" data-audio-src="audio/5e841d5037d32f72.mp3" data-audio2-src="audio2/p44_h019.mp3"><b>句</b>はじめまして、佐藤百合です。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-020" data-audio-id="9e9c6649dd13cc2f" data-audio-src="audio/9e9c6649dd13cc2f.mp3" data-audio2-src="audio2/p44_h020.mp3"><b>句</b>どうぞよろしく。<span class="audio-badge pending">合成音</span></button></li></ol>
       </div>
     </aside>
   </div>
@@ -1209,17 +1270,23 @@
       return true;
     }
 
+    let useAudio2 = false;
+
     function playPointAudio(group) {
       if (!group) return;
       const voice = voiceSelect ? voiceSelect.value : 'default';
-      const primarySrc = group.dataset.sourceSrc || '';
-      const fallbackSrc = group.dataset.audioSrc || '';
-      const activeSrc = primarySrc || fallbackSrc;
+      let activeSrc = '';
+      if (useAudio2 && group.dataset.audio2Src) {
+        activeSrc = group.dataset.audio2Src;
+      } else {
+        activeSrc = group.dataset.audioSrc || group.dataset.sourceSrc || '';
+      }
       if (!activeSrc) return;
       pointAudio.pause();
       pointAudio.currentTime = 0;
       pointAudio.onerror = () => {
-        if (activeSrc === primarySrc && fallbackSrc && setAudioSource(fallbackSrc)) {
+        const fallback = group.dataset.audioSrc || '';
+        if (fallback && setAudioSource(fallback)) {
           pointAudio.onerror = null;
           pointAudio.play().catch(() => {});
         }
@@ -1271,6 +1338,108 @@
     pointAudio.addEventListener('pause', () => {
       tapeButtons.forEach((b) => b.classList.remove('active'));
     });
+    
+    /* audio2 3-second long-press handler */
+    const ring = document.getElementById('long-press-ring');
+    let longPressTimer = null;
+    let downX = 0, downY = 0;
+    let suppressClick = false;
+    let toastEl = null, toastTimer = null;
+
+    function showToast(text) {
+      if (!toastEl) {
+        toastEl = document.createElement('div');
+        toastEl.className = 'audio2-toast';
+        document.body.appendChild(toastEl);
+      }
+      toastEl.textContent = text;
+      toastEl.classList.add('visible');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toastEl.classList.remove('visible'); }, 2500);
+    }
+
+    function updateAudio2UI() {
+      buttons.forEach((btn) => {
+        if (btn.dataset.audio2Src) {
+          const badge = btn.querySelector('.audio-badge');
+          if (badge) {
+            if (useAudio2) {
+              badge.textContent = '原声';
+              badge.className = 'audio-badge source';
+            } else {
+              badge.textContent = '合成音';
+              badge.className = 'audio-badge pending';
+            }
+          }
+        }
+      });
+    }
+
+    function toggleAudio2Mode() {
+      useAudio2 = !useAudio2;
+      updateAudio2UI();
+      showToast(useAudio2 ? '🎙️ 已切换为真人例句配音 (教材44页)' : '🤖 已恢复为点读合成音');
+      if (navigator.vibrate) {
+        try { navigator.vibrate([40, 60, 40]); } catch (e) {}
+      }
+      const activeGroup = groups.find((item) => item.classList.contains('active'));
+      if (activeGroup) playPointAudio(activeGroup);
+    }
+
+    function startLongPress(e) {
+      if (e.button && e.button !== 0) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      downX = clientX;
+      downY = clientY;
+      if (ring) {
+        ring.style.left = clientX + 'px';
+        ring.style.top = clientY + 'px';
+        ring.style.display = 'block';
+        ring.classList.remove('holding');
+        void ring.offsetWidth;
+        ring.classList.add('holding');
+      }
+      clearTimeout(longPressTimer);
+      longPressTimer = setTimeout(() => {
+        cancelLongPress(false);
+        suppressClick = true;
+        setTimeout(() => { suppressClick = false; }, 400);
+        toggleAudio2Mode();
+      }, 3000);
+    }
+
+    function cancelLongPress(hideRing = true) {
+      clearTimeout(longPressTimer);
+      longPressTimer = null;
+      if (ring && hideRing) {
+        ring.classList.remove('holding');
+        ring.style.display = 'none';
+      }
+    }
+
+    function onPointerMove(e) {
+      if (!longPressTimer) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      if (Math.hypot(clientX - downX, clientY - downY) > 12) {
+        cancelLongPress(true);
+      }
+    }
+
+    document.addEventListener('pointerdown', startLongPress, { passive: true });
+    document.addEventListener('pointermove', onPointerMove, { passive: true });
+    document.addEventListener('pointerup', () => cancelLongPress(true), { passive: true });
+    document.addEventListener('pointercancel', () => cancelLongPress(true), { passive: true });
+
+    document.addEventListener('click', (e) => {
+      if (suppressClick) {
+        suppressClick = false;
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    }, true);
+
     document.addEventListener('keydown', (event) => {
       if (event.key === 'ArrowLeft' && true) location.href = "page-054.html";
       if (event.key === 'ArrowRight' && true) location.href = "page-056.html";
@@ -1282,9 +1451,11 @@
   (function () {
     function preloadPageAudio() {
       var urls = {};
-      document.querySelectorAll('[data-audio-src],[data-source-src]').forEach(function (el) {
+      document.querySelectorAll('[data-audio-src],[data-source-src],[data-audio2-src]').forEach(function (el) {
         var s = el.getAttribute('data-source-src');
         var a = el.getAttribute('data-audio-src');
+        var a2 = el.getAttribute('data-audio2-src');
+        if (a2 && a2.trim()) urls[a2.trim()] = 1;
         var u = (s && s.trim()) ? s : a;   // 与 playPointAudio 优先级一致
         if (u && u.trim()) urls[u.trim()] = 1;
       });

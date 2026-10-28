@@ -257,9 +257,70 @@
       }
       .panel-content { max-height: calc(100dvh - 136px); }
     }
+  
+    /* audio2 long-press & toast styles */
+    .audio2-toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(35, 30, 24, 0.92);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 24px;
+      font-size: 14px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(8px);
+    }
+    .audio2-toast.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .long-press-ring {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 999;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+    .long-press-ring svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    .long-press-ring circle.bg {
+      stroke: rgba(224, 96, 0, 0.25);
+      stroke-width: 4;
+      fill: none;
+    }
+    .long-press-ring circle.progress {
+      stroke: #e06000;
+      stroke-width: 4;
+      stroke-linecap: round;
+      fill: none;
+      stroke-dasharray: 163.36;
+      stroke-dashoffset: 163.36;
+      transition: stroke-dashoffset 3s linear;
+    }
+    .long-press-ring.holding circle.progress {
+      stroke-dashoffset: 0;
+    }
+
   </style>
 </head>
 <body>
+  <div id="long-press-ring" class="long-press-ring"><svg viewBox="0 0 60 60"><circle class="bg" cx="30" cy="30" r="26"></circle><circle class="progress" cx="30" cy="30" r="26"></circle></svg></div>
   <div class="app">
     <nav class="nav" aria-label="page navigation">
       <a href="page-055.html" class="">上一页</a>
@@ -1108,37 +1169,37 @@
 <span id="c00834" class="pdf-char" style='left:284.174px;top:180.529px;width:12.000px;height:14.052px;font-size:12.000px;color:#f47920;opacity:1.000;font-family:"Yu Gothic", "Hiragino Sans", "Noto Sans CJK JP", sans-serif;'>目</span>
           </div>
           <div class="overlay" aria-label="pointread click layer">
-            <div class="point-hotspot sentence" data-target="h-001" data-char-ids="[&quot;c00065&quot;, &quot;c00066&quot;, &quot;c00067&quot;, &quot;c00068&quot;, &quot;c00069&quot;, &quot;c00070&quot;, &quot;c00071&quot;, &quot;c00072&quot;, &quot;c00075&quot;, &quot;c00078&quot;, &quot;c00082&quot;, &quot;c00085&quot;, &quot;c00088&quot;, &quot;c00090&quot;, &quot;c00093&quot;, &quot;c00096&quot;, &quot;c00098&quot;, &quot;c00100&quot;, &quot;c00101&quot;, &quot;c00102&quot;]" data-audio-id="eb104fa5069f47f1" data-audio-src="audio/eb104fa5069f47f1.mp3" data-source-src="" title="はじめまして、青山中学校の 中村由美です。">
+            <div class="point-hotspot sentence" data-target="h-001" data-char-ids="[&quot;c00065&quot;, &quot;c00066&quot;, &quot;c00067&quot;, &quot;c00068&quot;, &quot;c00069&quot;, &quot;c00070&quot;, &quot;c00071&quot;, &quot;c00072&quot;, &quot;c00075&quot;, &quot;c00078&quot;, &quot;c00082&quot;, &quot;c00085&quot;, &quot;c00088&quot;, &quot;c00090&quot;, &quot;c00093&quot;, &quot;c00096&quot;, &quot;c00098&quot;, &quot;c00100&quot;, &quot;c00101&quot;, &quot;c00102&quot;]" data-audio-id="eb104fa5069f47f1" data-audio-src="audio/eb104fa5069f47f1.mp3" data-source-src="" title="はじめまして、青山中学校の 中村由美です。" data-audio2-src="audio2/p45_h001.mp3">
   <div class="hit" style='left:131.165px;top:74.396px;width:230.425px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-002" data-char-ids="[&quot;c00103&quot;, &quot;c00104&quot;, &quot;c00105&quot;, &quot;c00107&quot;, &quot;c00108&quot;, &quot;c00109&quot;, &quot;c00110&quot;, &quot;c00112&quot;, &quot;c00113&quot;, &quot;c00116&quot;, &quot;c00117&quot;, &quot;c00118&quot;, &quot;c00119&quot;, &quot;c00120&quot;]" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3" data-source-src="source_audio_slices/e8b61d0ae71c1885.mp3" title="どうぞよろしくお願いします。">
+</div><div class="point-hotspot sentence" data-target="h-002" data-char-ids="[&quot;c00103&quot;, &quot;c00104&quot;, &quot;c00105&quot;, &quot;c00107&quot;, &quot;c00108&quot;, &quot;c00109&quot;, &quot;c00110&quot;, &quot;c00112&quot;, &quot;c00113&quot;, &quot;c00116&quot;, &quot;c00117&quot;, &quot;c00118&quot;, &quot;c00119&quot;, &quot;c00120&quot;]" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3" data-source-src="source_audio_slices/e8b61d0ae71c1885.mp3" title="どうぞよろしくお願いします。" data-audio2-src="audio2/p45_h002.mp3">
   <div class="hit" style='left:355.789px;top:74.396px;width:123.096px;height:16.500px;'></div>
   <div class="hit" style='left:131.890px;top:95.396px;width:58.500px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-003" data-char-ids="[&quot;c00151&quot;, &quot;c00154&quot;, &quot;c00156&quot;, &quot;c00160&quot;, &quot;c00163&quot;, &quot;c00166&quot;, &quot;c00168&quot;, &quot;c00171&quot;, &quot;c00174&quot;, &quot;c00177&quot;, &quot;c00179&quot;, &quot;c00180&quot;, &quot;c00181&quot;]" data-audio-id="93665d5b674be1db" data-audio-src="audio/93665d5b674be1db.mp3" data-source-src="" title="同じ 中学校の 山下智子です。">
+</div><div class="point-hotspot sentence" data-target="h-003" data-char-ids="[&quot;c00151&quot;, &quot;c00154&quot;, &quot;c00156&quot;, &quot;c00160&quot;, &quot;c00163&quot;, &quot;c00166&quot;, &quot;c00168&quot;, &quot;c00171&quot;, &quot;c00174&quot;, &quot;c00177&quot;, &quot;c00179&quot;, &quot;c00180&quot;, &quot;c00181&quot;]" data-audio-id="93665d5b674be1db" data-audio-src="audio/93665d5b674be1db.mp3" data-source-src="" title="同じ 中学校の 山下智子です。" data-audio2-src="audio2/p45_h003.mp3">
   <div class="hit" style='left:133.624px;top:116.396px;width:174.620px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-004" data-char-ids="[&quot;c00182&quot;, &quot;c00183&quot;, &quot;c00184&quot;, &quot;c00185&quot;, &quot;c00186&quot;, &quot;c00187&quot;, &quot;c00188&quot;, &quot;c00189&quot;, &quot;c00190&quot;, &quot;c00191&quot;, &quot;c00193&quot;, &quot;c00194&quot;, &quot;c00195&quot;, &quot;c00196&quot;, &quot;c00199&quot;, &quot;c00200&quot;, &quot;c00203&quot;, &quot;c00204&quot;, &quot;c00205&quot;, &quot;c00206&quot;, &quot;c00207&quot;]" data-audio-id="3c5ce2ed6367b256" data-audio-src="audio/3c5ce2ed6367b256.mp3" data-source-src="" title="はじめまして、どうぞよろしくお願いします。">
+</div><div class="point-hotspot sentence" data-target="h-004" data-char-ids="[&quot;c00182&quot;, &quot;c00183&quot;, &quot;c00184&quot;, &quot;c00185&quot;, &quot;c00186&quot;, &quot;c00187&quot;, &quot;c00188&quot;, &quot;c00189&quot;, &quot;c00190&quot;, &quot;c00191&quot;, &quot;c00193&quot;, &quot;c00194&quot;, &quot;c00195&quot;, &quot;c00196&quot;, &quot;c00199&quot;, &quot;c00200&quot;, &quot;c00203&quot;, &quot;c00204&quot;, &quot;c00205&quot;, &quot;c00206&quot;, &quot;c00207&quot;]" data-audio-id="3c5ce2ed6367b256" data-audio-src="audio/3c5ce2ed6367b256.mp3" data-source-src="" title="はじめまして、どうぞよろしくお願いします。" data-audio2-src="audio2/p45_h004.mp3">
   <div class="hit" style='left:303.252px;top:116.396px;width:175.596px;height:16.500px;'></div>
   <div class="hit" style='left:131.892px;top:137.396px;width:79.498px;height:16.500px;'></div>
 </div><div class="point-hotspot sentence" data-target="h-005" data-char-ids="[&quot;c00239&quot;, &quot;c00240&quot;, &quot;c00241&quot;, &quot;c00242&quot;, &quot;c00243&quot;, &quot;c00244&quot;, &quot;c00245&quot;, &quot;c00247&quot;, &quot;c00249&quot;, &quot;c00250&quot;, &quot;c00251&quot;, &quot;c00252&quot;]" data-audio-id="e0bb9344f41f98e9" data-audio-src="audio/e0bb9344f41f98e9.mp3" data-source-src="source_audio_slices/e0bb9344f41f98e9.mp3" title="サンドイッチが 好きです。">
   <div class="hit" style='left:103.634px;top:221.070px;width:142.506px;height:16.501px;'></div>
 </div><div class="point-hotspot sentence" data-target="h-006" data-char-ids="[&quot;c00253&quot;, &quot;c00256&quot;, &quot;c00259&quot;, &quot;c00260&quot;]" data-audio-id="e454125e26f09a4e" data-audio-src="audio/e454125e26f09a4e.mp3" data-source-src="" title="陳君は？">
   <div class="hit" style='left:240.140px;top:221.070px;width:48.000px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-007" data-char-ids="[&quot;c00333&quot;, &quot;c00336&quot;, &quot;c00338&quot;, &quot;c00341&quot;, &quot;c00343&quot;, &quot;c00346&quot;, &quot;c00348&quot;, &quot;c00350&quot;, &quot;c00351&quot;, &quot;c00352&quot;, &quot;c00353&quot;, &quot;c00354&quot;]" data-audio-id="5f641a378fbc9d91" data-audio-src="audio/5f641a378fbc9d91.mp3" data-source-src="" title="山田君は 何が 好きですか。">
+</div><div class="point-hotspot sentence" data-target="h-007" data-char-ids="[&quot;c00333&quot;, &quot;c00336&quot;, &quot;c00338&quot;, &quot;c00341&quot;, &quot;c00343&quot;, &quot;c00346&quot;, &quot;c00348&quot;, &quot;c00350&quot;, &quot;c00351&quot;, &quot;c00352&quot;, &quot;c00353&quot;, &quot;c00354&quot;]" data-audio-id="5f641a378fbc9d91" data-audio-src="audio/5f641a378fbc9d91.mp3" data-source-src="" title="山田君は 何が 好きですか。" data-audio2-src="audio2/p45_h007.mp3">
   <div class="hit" style='left:102.949px;top:282.562px;width:152.741px;height:16.508px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-008" data-char-ids="[&quot;c00369&quot;, &quot;c00372&quot;, &quot;c00375&quot;, &quot;c00378&quot;, &quot;c00380&quot;, &quot;c00383&quot;, &quot;c00385&quot;, &quot;c00389&quot;, &quot;c00392&quot;, &quot;c00395&quot;, &quot;c00399&quot;, &quot;c00400&quot;, &quot;c00401&quot;]" data-audio-id="31cdf2ce06f23022" data-audio-src="audio/31cdf2ce06f23022.mp3" data-source-src="" title="健一君の 家は 病院の 隣です。">
+</div><div class="point-hotspot sentence" data-target="h-008" data-char-ids="[&quot;c00369&quot;, &quot;c00372&quot;, &quot;c00375&quot;, &quot;c00378&quot;, &quot;c00380&quot;, &quot;c00383&quot;, &quot;c00385&quot;, &quot;c00389&quot;, &quot;c00392&quot;, &quot;c00395&quot;, &quot;c00399&quot;, &quot;c00400&quot;, &quot;c00401&quot;]" data-audio-id="31cdf2ce06f23022" data-audio-src="audio/31cdf2ce06f23022.mp3" data-source-src="" title="健一君の 家は 病院の 隣です。" data-audio2-src="audio2/p45_h008.mp3">
   <div class="hit" style='left:102.953px;top:303.066px;width:173.999px;height:16.504px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-009" data-char-ids="[&quot;c00415&quot;, &quot;c00418&quot;, &quot;c00421&quot;, &quot;c00425&quot;, &quot;c00428&quot;, &quot;c00430&quot;, &quot;c00432&quot;, &quot;c00436&quot;, &quot;c00439&quot;, &quot;c00440&quot;, &quot;c00441&quot;, &quot;c00442&quot;]" data-audio-id="f7e7a09e761c5e1b" data-audio-src="audio/f7e7a09e761c5e1b.mp3" data-source-src="" title="高橋宏君も 野球を します。">
+</div><div class="point-hotspot sentence" data-target="h-009" data-char-ids="[&quot;c00415&quot;, &quot;c00418&quot;, &quot;c00421&quot;, &quot;c00425&quot;, &quot;c00428&quot;, &quot;c00430&quot;, &quot;c00432&quot;, &quot;c00436&quot;, &quot;c00439&quot;, &quot;c00440&quot;, &quot;c00441&quot;, &quot;c00442&quot;]" data-audio-id="f7e7a09e761c5e1b" data-audio-src="audio/f7e7a09e761c5e1b.mp3" data-source-src="" title="高橋宏君も 野球を します。" data-audio2-src="audio2/p45_h009.mp3">
   <div class="hit" style='left:102.952px;top:323.566px;width:153.263px;height:16.504px;'></div>
 </div><div class="point-hotspot sentence" data-target="h-010" data-char-ids="[&quot;c00471&quot;, &quot;c00474&quot;, &quot;c00476&quot;, &quot;c00477&quot;, &quot;c00478&quot;, &quot;c00480&quot;, &quot;c00482&quot;, &quot;c00483&quot;, &quot;c00484&quot;, &quot;c00485&quot;]" data-audio-id="8fd9334414dfb120" data-audio-src="audio/8fd9334414dfb120.mp3" data-source-src="source_audio_slices/8fd9334414dfb120.mp3" title="僕は パンが 好きです。">
   <div class="hit" style='left:103.635px;top:385.562px;width:132.005px;height:16.508px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-011" data-char-ids="[&quot;c00613&quot;, &quot;c00616&quot;, &quot;c00619&quot;, &quot;c00620&quot;, &quot;c00621&quot;, &quot;c00623&quot;, &quot;c00625&quot;, &quot;c00629&quot;, &quot;c00631&quot;, &quot;c00633&quot;, &quot;c00634&quot;, &quot;c00635&quot;, &quot;c00636&quot;]" data-audio-id="8d6cc7377f86b7b1" data-audio-src="audio/8d6cc7377f86b7b1.mp3" data-source-src="" title="中村さんは 野球が 好きです。">
+</div><div class="point-hotspot sentence" data-target="h-011" data-char-ids="[&quot;c00613&quot;, &quot;c00616&quot;, &quot;c00619&quot;, &quot;c00620&quot;, &quot;c00621&quot;, &quot;c00623&quot;, &quot;c00625&quot;, &quot;c00629&quot;, &quot;c00631&quot;, &quot;c00633&quot;, &quot;c00634&quot;, &quot;c00635&quot;, &quot;c00636&quot;]" data-audio-id="8d6cc7377f86b7b1" data-audio-src="audio/8d6cc7377f86b7b1.mp3" data-source-src="" title="中村さんは 野球が 好きです。" data-audio2-src="audio2/p45_h011.mp3">
   <div class="hit" style='left:102.953px;top:467.566px;width:163.499px;height:16.504px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-012" data-char-ids="[&quot;c00665&quot;, &quot;c00668&quot;, &quot;c00669&quot;, &quot;c00670&quot;, &quot;c00671&quot;, &quot;c00674&quot;, &quot;c00676&quot;, &quot;c00678&quot;, &quot;c00679&quot;, &quot;c00680&quot;, &quot;c00681&quot;, &quot;c00682&quot;]" data-audio-id="b56f908cbe622126" data-audio-src="audio/b56f908cbe622126.mp3" data-source-src="" title="袁さん、何が 好きですか。">
+</div><div class="point-hotspot sentence" data-target="h-012" data-char-ids="[&quot;c00665&quot;, &quot;c00668&quot;, &quot;c00669&quot;, &quot;c00670&quot;, &quot;c00671&quot;, &quot;c00674&quot;, &quot;c00676&quot;, &quot;c00678&quot;, &quot;c00679&quot;, &quot;c00680&quot;, &quot;c00681&quot;, &quot;c00682&quot;]" data-audio-id="b56f908cbe622126" data-audio-src="audio/b56f908cbe622126.mp3" data-source-src="" title="袁さん、何が 好きですか。" data-audio2-src="audio2/p45_h012.mp3">
   <div class="hit" style='left:133.140px;top:508.570px;width:142.500px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-013" data-char-ids="[&quot;c00703&quot;, &quot;c00706&quot;, &quot;c00708&quot;, &quot;c00710&quot;, &quot;c00711&quot;, &quot;c00712&quot;, &quot;c00713&quot;]" data-audio-id="4d622ca7023f20b5" data-audio-src="audio/4d622ca7023f20b5.mp3" data-source-src="" title="竹が 好きです。">
+</div><div class="point-hotspot sentence" data-target="h-013" data-char-ids="[&quot;c00703&quot;, &quot;c00706&quot;, &quot;c00708&quot;, &quot;c00710&quot;, &quot;c00711&quot;, &quot;c00712&quot;, &quot;c00713&quot;]" data-audio-id="4d622ca7023f20b5" data-audio-src="audio/4d622ca7023f20b5.mp3" data-source-src="" title="竹が 好きです。" data-audio2-src="audio2/p45_h013.mp3">
   <div class="hit" style='left:134.140px;top:529.070px;width:90.000px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-014" data-char-ids="[&quot;c00729&quot;, &quot;c00731&quot;, &quot;c00734&quot;, &quot;c00735&quot;, &quot;c00736&quot;, &quot;c00738&quot;, &quot;c00739&quot;, &quot;c00740&quot;, &quot;c00741&quot;, &quot;c00743&quot;, &quot;c00745&quot;, &quot;c00746&quot;, &quot;c00747&quot;, &quot;c00748&quot;, &quot;c00749&quot;]" data-audio-id="d6eba174a11cb676" data-audio-src="audio/d6eba174a11cb676.mp3" data-source-src="" title="佐藤さんは すいかが 好きですか。">
+</div><div class="point-hotspot sentence" data-target="h-014" data-char-ids="[&quot;c00729&quot;, &quot;c00731&quot;, &quot;c00734&quot;, &quot;c00735&quot;, &quot;c00736&quot;, &quot;c00738&quot;, &quot;c00739&quot;, &quot;c00740&quot;, &quot;c00741&quot;, &quot;c00743&quot;, &quot;c00745&quot;, &quot;c00746&quot;, &quot;c00747&quot;, &quot;c00748&quot;, &quot;c00749&quot;]" data-audio-id="d6eba174a11cb676" data-audio-src="audio/d6eba174a11cb676.mp3" data-source-src="" title="佐藤さんは すいかが 好きですか。" data-audio2-src="audio2/p45_h014.mp3">
   <div class="hit" style='left:134.452px;top:549.570px;width:184.500px;height:16.500px;'></div>
-</div><div class="point-hotspot sentence" data-target="h-015" data-char-ids="[&quot;c00771&quot;, &quot;c00772&quot;, &quot;c00773&quot;, &quot;c00774&quot;, &quot;c00776&quot;, &quot;c00777&quot;, &quot;c00778&quot;, &quot;c00779&quot;]" data-audio-id="9db2c3655061621c" data-audio-src="audio/9db2c3655061621c.mp3" data-source-src="" title="はい、好きです。">
+</div><div class="point-hotspot sentence" data-target="h-015" data-char-ids="[&quot;c00771&quot;, &quot;c00772&quot;, &quot;c00773&quot;, &quot;c00774&quot;, &quot;c00776&quot;, &quot;c00777&quot;, &quot;c00778&quot;, &quot;c00779&quot;]" data-audio-id="9db2c3655061621c" data-audio-src="audio/9db2c3655061621c.mp3" data-source-src="" title="はい、好きです。" data-audio2-src="audio2/p45_h015.mp3">
   <div class="hit" style='left:134.560px;top:570.070px;width:90.000px;height:16.500px;'></div>
 </div><div class="point-hotspot sentence" data-target="h-016" data-char-ids="[&quot;c00795&quot;, &quot;c00796&quot;, &quot;c00797&quot;, &quot;c00798&quot;, &quot;c00800&quot;, &quot;c00801&quot;, &quot;c00802&quot;, &quot;c00804&quot;, &quot;c00806&quot;, &quot;c00807&quot;, &quot;c00808&quot;, &quot;c00809&quot;]" data-audio-id="cbe3d8f890208e2b" data-audio-src="audio/cbe3d8f890208e2b.mp3" data-source-src="" title="わたしも パンが 好きです。">
   <div class="hit" style='left:103.637px;top:631.569px;width:153.003px;height:16.501px;'></div>
@@ -1153,21 +1214,21 @@
       <div id="point-panel-content" class="panel-content">
         <h1>第 45 页</h1>
         <p class="meta">优先标出完整日语句子；本页没有完整句时才标出日语词汇。中文说明和单独假名不生成点读热区。本页 16 个热区。</p>
-        <ol><li><button type="button" data-target="h-001" data-audio-id="eb104fa5069f47f1" data-audio-src="audio/eb104fa5069f47f1.mp3"><b>句</b>はじめまして、青山中学校の 中村由美です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-002" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3"><b>句</b>どうぞよろしくお願いします。<span class="audio-badge source">原声</span></button></li>
-<li><button type="button" data-target="h-003" data-audio-id="93665d5b674be1db" data-audio-src="audio/93665d5b674be1db.mp3"><b>句</b>同じ 中学校の 山下智子です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-004" data-audio-id="3c5ce2ed6367b256" data-audio-src="audio/3c5ce2ed6367b256.mp3"><b>句</b>はじめまして、どうぞよろしくお願いします。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-005" data-audio-id="e0bb9344f41f98e9" data-audio-src="audio/e0bb9344f41f98e9.mp3"><b>句</b>サンドイッチが 好きです。<span class="audio-badge source">原声</span></button></li>
+        <ol><li><button type="button" data-target="h-001" data-audio-id="eb104fa5069f47f1" data-audio-src="audio/eb104fa5069f47f1.mp3" data-audio2-src="audio2/p45_h001.mp3"><b>句</b>はじめまして、青山中学校の 中村由美です。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-002" data-audio-id="e8b61d0ae71c1885" data-audio-src="audio/e8b61d0ae71c1885.mp3" data-audio2-src="audio2/p45_h002.mp3"><b>句</b>どうぞよろしくお願いします。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-003" data-audio-id="93665d5b674be1db" data-audio-src="audio/93665d5b674be1db.mp3" data-audio2-src="audio2/p45_h003.mp3"><b>句</b>同じ 中学校の 山下智子です。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-004" data-audio-id="3c5ce2ed6367b256" data-audio-src="audio/3c5ce2ed6367b256.mp3" data-audio2-src="audio2/p45_h004.mp3"><b>句</b>はじめまして、どうぞよろしくお願いします。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-005" data-audio-id="e0bb9344f41f98e9" data-audio-src="audio/e0bb9344f41f98e9.mp3"><b>句</b>サンドイッチが 好きです。<span class="audio-badge pending">合成音</span></button></li>
 <li><button type="button" data-target="h-006" data-audio-id="e454125e26f09a4e" data-audio-src="audio/e454125e26f09a4e.mp3"><b>句</b>陳君は？<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-007" data-audio-id="5f641a378fbc9d91" data-audio-src="audio/5f641a378fbc9d91.mp3"><b>句</b>山田君は 何が 好きですか。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-008" data-audio-id="31cdf2ce06f23022" data-audio-src="audio/31cdf2ce06f23022.mp3"><b>句</b>健一君の 家は 病院の 隣です。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-009" data-audio-id="f7e7a09e761c5e1b" data-audio-src="audio/f7e7a09e761c5e1b.mp3"><b>句</b>高橋宏君も 野球を します。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-010" data-audio-id="8fd9334414dfb120" data-audio-src="audio/8fd9334414dfb120.mp3"><b>句</b>僕は パンが 好きです。<span class="audio-badge source">原声</span></button></li>
-<li><button type="button" data-target="h-011" data-audio-id="8d6cc7377f86b7b1" data-audio-src="audio/8d6cc7377f86b7b1.mp3"><b>句</b>中村さんは 野球が 好きです。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-012" data-audio-id="b56f908cbe622126" data-audio-src="audio/b56f908cbe622126.mp3"><b>句</b>袁さん、何が 好きですか。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-013" data-audio-id="4d622ca7023f20b5" data-audio-src="audio/4d622ca7023f20b5.mp3"><b>句</b>竹が 好きです。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-014" data-audio-id="d6eba174a11cb676" data-audio-src="audio/d6eba174a11cb676.mp3"><b>句</b>佐藤さんは すいかが 好きですか。<span class="audio-badge pending">合成音</span></button></li>
-<li><button type="button" data-target="h-015" data-audio-id="9db2c3655061621c" data-audio-src="audio/9db2c3655061621c.mp3"><b>句</b>はい、好きです。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-007" data-audio-id="5f641a378fbc9d91" data-audio-src="audio/5f641a378fbc9d91.mp3" data-audio2-src="audio2/p45_h007.mp3"><b>句</b>山田君は 何が 好きですか。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-008" data-audio-id="31cdf2ce06f23022" data-audio-src="audio/31cdf2ce06f23022.mp3" data-audio2-src="audio2/p45_h008.mp3"><b>句</b>健一君の 家は 病院の 隣です。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-009" data-audio-id="f7e7a09e761c5e1b" data-audio-src="audio/f7e7a09e761c5e1b.mp3" data-audio2-src="audio2/p45_h009.mp3"><b>句</b>高橋宏君も 野球を します。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-010" data-audio-id="8fd9334414dfb120" data-audio-src="audio/8fd9334414dfb120.mp3"><b>句</b>僕は パンが 好きです。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-011" data-audio-id="8d6cc7377f86b7b1" data-audio-src="audio/8d6cc7377f86b7b1.mp3" data-audio2-src="audio2/p45_h011.mp3"><b>句</b>中村さんは 野球が 好きです。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-012" data-audio-id="b56f908cbe622126" data-audio-src="audio/b56f908cbe622126.mp3" data-audio2-src="audio2/p45_h012.mp3"><b>句</b>袁さん、何が 好きですか。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-013" data-audio-id="4d622ca7023f20b5" data-audio-src="audio/4d622ca7023f20b5.mp3" data-audio2-src="audio2/p45_h013.mp3"><b>句</b>竹が 好きです。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-014" data-audio-id="d6eba174a11cb676" data-audio-src="audio/d6eba174a11cb676.mp3" data-audio2-src="audio2/p45_h014.mp3"><b>句</b>佐藤さんは すいかが 好きですか。<span class="audio-badge pending">合成音</span></button></li>
+<li><button type="button" data-target="h-015" data-audio-id="9db2c3655061621c" data-audio-src="audio/9db2c3655061621c.mp3" data-audio2-src="audio2/p45_h015.mp3"><b>句</b>はい、好きです。<span class="audio-badge pending">合成音</span></button></li>
 <li><button type="button" data-target="h-016" data-audio-id="cbe3d8f890208e2b" data-audio-src="audio/cbe3d8f890208e2b.mp3"><b>句</b>わたしも パンが 好きです。<span class="audio-badge pending">合成音</span></button></li></ol>
       </div>
     </aside>
@@ -1277,17 +1338,23 @@
       return true;
     }
 
+    let useAudio2 = false;
+
     function playPointAudio(group) {
       if (!group) return;
       const voice = voiceSelect ? voiceSelect.value : 'default';
-      const primarySrc = group.dataset.sourceSrc || '';
-      const fallbackSrc = group.dataset.audioSrc || '';
-      const activeSrc = primarySrc || fallbackSrc;
+      let activeSrc = '';
+      if (useAudio2 && group.dataset.audio2Src) {
+        activeSrc = group.dataset.audio2Src;
+      } else {
+        activeSrc = group.dataset.audioSrc || group.dataset.sourceSrc || '';
+      }
       if (!activeSrc) return;
       pointAudio.pause();
       pointAudio.currentTime = 0;
       pointAudio.onerror = () => {
-        if (activeSrc === primarySrc && fallbackSrc && setAudioSource(fallbackSrc)) {
+        const fallback = group.dataset.audioSrc || '';
+        if (fallback && setAudioSource(fallback)) {
           pointAudio.onerror = null;
           pointAudio.play().catch(() => {});
         }
@@ -1339,6 +1406,108 @@
     pointAudio.addEventListener('pause', () => {
       tapeButtons.forEach((b) => b.classList.remove('active'));
     });
+    
+    /* audio2 3-second long-press handler */
+    const ring = document.getElementById('long-press-ring');
+    let longPressTimer = null;
+    let downX = 0, downY = 0;
+    let suppressClick = false;
+    let toastEl = null, toastTimer = null;
+
+    function showToast(text) {
+      if (!toastEl) {
+        toastEl = document.createElement('div');
+        toastEl.className = 'audio2-toast';
+        document.body.appendChild(toastEl);
+      }
+      toastEl.textContent = text;
+      toastEl.classList.add('visible');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toastEl.classList.remove('visible'); }, 2500);
+    }
+
+    function updateAudio2UI() {
+      buttons.forEach((btn) => {
+        if (btn.dataset.audio2Src) {
+          const badge = btn.querySelector('.audio-badge');
+          if (badge) {
+            if (useAudio2) {
+              badge.textContent = '原声';
+              badge.className = 'audio-badge source';
+            } else {
+              badge.textContent = '合成音';
+              badge.className = 'audio-badge pending';
+            }
+          }
+        }
+      });
+    }
+
+    function toggleAudio2Mode() {
+      useAudio2 = !useAudio2;
+      updateAudio2UI();
+      showToast(useAudio2 ? '🎙️ 已切换为真人例句配音 (教材45页)' : '🤖 已恢复为点读合成音');
+      if (navigator.vibrate) {
+        try { navigator.vibrate([40, 60, 40]); } catch (e) {}
+      }
+      const activeGroup = groups.find((item) => item.classList.contains('active'));
+      if (activeGroup) playPointAudio(activeGroup);
+    }
+
+    function startLongPress(e) {
+      if (e.button && e.button !== 0) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      downX = clientX;
+      downY = clientY;
+      if (ring) {
+        ring.style.left = clientX + 'px';
+        ring.style.top = clientY + 'px';
+        ring.style.display = 'block';
+        ring.classList.remove('holding');
+        void ring.offsetWidth;
+        ring.classList.add('holding');
+      }
+      clearTimeout(longPressTimer);
+      longPressTimer = setTimeout(() => {
+        cancelLongPress(false);
+        suppressClick = true;
+        setTimeout(() => { suppressClick = false; }, 400);
+        toggleAudio2Mode();
+      }, 3000);
+    }
+
+    function cancelLongPress(hideRing = true) {
+      clearTimeout(longPressTimer);
+      longPressTimer = null;
+      if (ring && hideRing) {
+        ring.classList.remove('holding');
+        ring.style.display = 'none';
+      }
+    }
+
+    function onPointerMove(e) {
+      if (!longPressTimer) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      if (Math.hypot(clientX - downX, clientY - downY) > 12) {
+        cancelLongPress(true);
+      }
+    }
+
+    document.addEventListener('pointerdown', startLongPress, { passive: true });
+    document.addEventListener('pointermove', onPointerMove, { passive: true });
+    document.addEventListener('pointerup', () => cancelLongPress(true), { passive: true });
+    document.addEventListener('pointercancel', () => cancelLongPress(true), { passive: true });
+
+    document.addEventListener('click', (e) => {
+      if (suppressClick) {
+        suppressClick = false;
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    }, true);
+
     document.addEventListener('keydown', (event) => {
       if (event.key === 'ArrowLeft' && true) location.href = "page-055.html";
       if (event.key === 'ArrowRight' && true) location.href = "page-057.html";
@@ -1350,9 +1519,11 @@
   (function () {
     function preloadPageAudio() {
       var urls = {};
-      document.querySelectorAll('[data-audio-src],[data-source-src]').forEach(function (el) {
+      document.querySelectorAll('[data-audio-src],[data-source-src],[data-audio2-src]').forEach(function (el) {
         var s = el.getAttribute('data-source-src');
         var a = el.getAttribute('data-audio-src');
+        var a2 = el.getAttribute('data-audio2-src');
+        if (a2 && a2.trim()) urls[a2.trim()] = 1;
         var u = (s && s.trim()) ? s : a;   // 与 playPointAudio 优先级一致
         if (u && u.trim()) urls[u.trim()] = 1;
       });
